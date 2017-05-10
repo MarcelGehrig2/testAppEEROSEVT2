@@ -3,10 +3,11 @@
 
 #include <eeros/core/Executor.hpp>
 #include <eeros/task/Periodic.hpp>
+#include <ros/console.h>
 
 #include "TestAppCS.hpp"
 
-using namespace testapptcpip;
+using namespace testapp;
 using namespace eeros::control;
 using namespace std;
 

@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-namespace testapptcpip {
+namespace testapp {
 
 	template < typename T = double >
 	class Print : public eeros::control::Block1i<T> {

@@ -10,7 +10,7 @@
 
 using namespace eeros::control;
 
-namespace testapptcpip {	
+namespace testapp {
 	
 	class TestAppCS {		
 	public:
