@@ -12,6 +12,7 @@
 #include <eeros/logger/Logger.hpp>
 #include <eeros/logger/StreamLogWriter.hpp>
 
+#include <eeros/logger/ROSLogWriter.hpp>
 
 #include "control/controlSystem/TestAppCS.hpp"
 #include "control/safetySystem/TestAppSafetyProperties.hpp"
@@ -33,12 +34,13 @@ void signalHandler(int signum) {
 
 int main(int argc, char **argv) {
 
+	logger::ROSLogWriter foo;
 
-	ros::init(argc, argv, "talker");
-	ros::NodeHandle n;
-	signal(SIGINT, signalHandler);		// Needs to be set after initialization of ROS
-	ROS_INFO("%s", "Hello World");
-	ROS_DEBUG("Hello %s", "World");
+//	ros::init(argc, argv, "talker");
+//	ros::NodeHandle n;
+//	signal(SIGINT, signalHandler);		// Needs to be set after initialization of ROS
+//	ROS_INFO("%s", "Hello World");
+//	ROS_DEBUG("Hello %s", "World");
 	
 	double dt = 0.001;
 	
@@ -72,6 +74,7 @@ int main(int argc, char **argv) {
 //// 	MainSequence mainSequence(S, &controlSystem, "mainSequence");
 //// 	S.addMainSequence(&mainSequence);
 	
+	signal(SIGINT, signalHandler);		// Needs to be set after initialization of ROS
 	log.info() << "executor.run()";
 	executor.run();
 

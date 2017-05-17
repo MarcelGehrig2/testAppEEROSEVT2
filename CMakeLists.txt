@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
  
-project(testapptVT2)
+project(testapptEEROSVT2)
  
 find_package(EEROS REQUIRED)
 
