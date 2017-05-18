@@ -2,9 +2,11 @@
 #define CH_NTB_TESTAPP_CONTROLSYSTEM_HPP_
 
 
+#include <ros/ros.h>
 #include <eeros/control/TimeDomain.hpp> 
 
 #include <eeros/control/Constant.hpp>
+#include <eeros/control/ReceiveTeleopTurtleKey.hpp>
 #include "Print.hpp"
 
 
@@ -14,13 +16,15 @@ namespace testapp {
 	
 	class TestAppCS {		
 	public:
-		TestAppCS(double dt);
+//		TestAppCS(double dt);
+		TestAppCS(double dt, ros::NodeHandle& rosNodeHandler);
 		
 		std::string test = "test erfolgreich";
 		
 		// Define blocks
 		Constant<int> constIntA;
 		Print<int> printIntA;
+		ReceiveTeleopTurtleKey receiveKeyboard;
 		
 		
 // 		float maxPeriod[1000] = {0};
@@ -28,6 +32,7 @@ namespace testapp {
 				
 //	protected:
 		double dt;
+		ros::NodeHandle& rosNodeHandler;
 		bool realtime;
 		eeros::control::TimeDomain timedomain;
 	}; // END class

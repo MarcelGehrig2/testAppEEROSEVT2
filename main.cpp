@@ -28,13 +28,12 @@ volatile bool running = true;
 void signalHandler(int signum) {
 	std::cout << "main: signalHandler" << std::endl;
 	running = false;
+//	ros::shutdown();
 	SafetySystem::exitHandler();
 }
 
 
 int main(int argc, char **argv) {
-
-	logger::ROSLogWriter foo;
 
 //	ros::init(argc, argv, "talker");
 //	ros::NodeHandle n;
@@ -48,17 +47,37 @@ int main(int argc, char **argv) {
 	w.show(LogLevel::TRACE);
 	Logger::setDefaultWriter(&w);
 	Logger log;
+
  
 	log.info() << "EEROS started";
 	
 	// Executor
 	// ////////////////////////////////////////////////////////////////////////
 	auto &executor = eeros::Executor::instance();
+
+	// ROS
+	// ////////////////////////////////////////////////////////////////////////
+	char* dummy_args[] = {NULL};
+	int dummy_argc = sizeof(dummy_args)/sizeof(dummy_args[0]) - 1;
+	ros::init(dummy_argc, dummy_args, "EEROSNode");
+	log.trace() << "ROS node initialized.";
+	ros::NodeHandle rosNodeHandler;
+//	rosNodeHandle ros::NodeHandle;
 	
 	
 	// Control System
 	// ////////////////////////////////////////////////////////////////////////
-	testapp::TestAppCS controlSystem (dt);
+	testapp::TestAppCS controlSystem (dt, rosNodeHandler);
+
+	// Lambda function for logging signals in CS
+	// /////////////////////////////////////////
+	eeros::task::Lambda l1 ([&] () { });
+	eeros::task::Periodic perLog("periodic log", 1, l1);
+	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
+		log.info() << "Linear speed: " << controlSystem.receiveKeyboard.getLinear().getSignal();
+		log.info() << "Angular speed: " << controlSystem.receiveKeyboard.getAngular().getSignal();
+	});
+	executor.add(perLog);
 	
 	// Safety System
 	// ////////////////////////////////////////////////////////////////////////
