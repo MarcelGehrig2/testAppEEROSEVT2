@@ -74,8 +74,9 @@ int main(int argc, char **argv) {
 	eeros::task::Lambda l1 ([&] () { });
 	eeros::task::Periodic perLog("periodic log", 1, l1);
 	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
-		log.info() << "Linear speed: " << controlSystem.receiveKeyboard.getLinear().getSignal();
-		log.info() << "Angular speed: " << controlSystem.receiveKeyboard.getAngular().getSignal();
+		log.info() << "ROSTopic 1: " << controlSystem.rosBlockA.getOut().getSignal();
+		log.info() << "ROSTopic 2 Axes: " << controlSystem.rosBlockB.getAxesOut().getSignal();
+		log.info() << "ROSTopic 2 Buttons: " << controlSystem.rosBlockB.getButtonsOut().getSignal();
 	});
 	executor.add(perLog);
 	

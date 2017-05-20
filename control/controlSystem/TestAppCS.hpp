@@ -3,12 +3,16 @@
 
 
 #include <ros/ros.h>
+#include <std_msgs/Float64.h>
 #include <eeros/control/TimeDomain.hpp> 
 
 #include <eeros/control/Constant.hpp>
 #include <eeros/control/ReceiveTeleopTurtleKey.hpp>
-#include "Print.hpp"
+//#include <eeros/control/ROSBlock.hpp>
 
+#include "Print.hpp"
+#include "ROSBlockTopic1.hpp"
+#include "ROSBlockTopic2.hpp"
 
 using namespace eeros::control;
 
@@ -24,7 +28,10 @@ namespace testapp {
 		// Define blocks
 		Constant<int> constIntA;
 		Print<int> printIntA;
-		ReceiveTeleopTurtleKey receiveKeyboard;
+//		ReceiveTeleopTurtleKey receiveKeyboard;
+//		ROSBlock<std_msgs::Float64> rosBlockA;
+		ROSBlockTopic1 rosBlockA;
+		ROSBlockTopic2 rosBlockB;
 		
 		
 // 		float maxPeriod[1000] = {0};
