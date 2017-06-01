@@ -1,43 +1,37 @@
-#ifndef ROSBLOCKTOPIC2_HPP		// USER DEFINED guard name
+#ifndef ROSBLOCKTOPIC2_HPP
 #define ROSBLOCKTOPIC2_HPP
 
 #include <ros/ros.h>
-#include <eeros/control/Block.hpp>
-#include <eeros/control/Output.hpp>
+#include <eeros/control/ROSBlock.hpp>
 #include <eeros/core/System.hpp>
 #include <eeros/math/Matrix.hpp>
 
-// USER DEFINED. Include used message type
+// Include used message type
 //#include <std_msgs/Float64.h>
 #include <sensor_msgs/Joy.h>
 //#include <sensor_msgs/LaserScan.h>
 
-namespace testapp {													// USER DEFINED namespace
-	class ROSBlockTopic2 : public eeros::control::Block {			// USER DEFINED class name
+using namespace eeros::control;
 
-		// USER DEFINED: Adapt the type definitions for your application.
-		//               Multiple outputs are possible.
-		//               It is not easily possible, to subscribe to multiple ROS topics with one block
-		//               Use "$ rosmsg show sensor_msgs/Joy" to see, which data a certain message type contains
-		typedef sensor_msgs::Joy::Type						typeROSMessage;		// Depends on ROS topic.
+namespace testapp {
+	template < typename TMsg >
+	class ROSBlockTopic2 : public ROSBlock< TMsg > {
+
 		typedef eeros::math::Matrix< 3 , 1 , double >		typeAxesOutput;
 		typedef eeros::math::Matrix< 5 , 1 , int >			typeButtonsOutput;
-		// END OF USER DEFINED
-
 
 	public:
 		ROSBlockTopic2(ros::NodeHandle& rosNodeHandler, const std::string& topic, uint32_t queueSize=1000) :
 			rosNodeHandler(rosNodeHandler),
-			topic (topic)
+			ROSBlock< TMsg >( rosNodeHandler, topic, queueSize )
 		{
-			axesOutput.getSignal().clear();		// USER DEFINED clear all outputs
+			//clear all EEROS signals
+			axesOutput.getSignal().clear();
 			buttonsOutput.getSignal().clear();
-
-			subscriber = rosNodeHandler.subscribe(topic, queueSize, &ROSBlockTopic2::rosCallbackFct, this);
 		}
 
 
-		virtual void rosCallbackFct(const typeROSMessage& msg) {
+		virtual void rosCallbackFct(const TMsg& msg) {
 			auto time = eeros::System::getTimeNs();
 
 			// USER DEFINED: 1.) Set timestamp for all outputs
@@ -54,12 +48,6 @@ namespace testapp {													// USER DEFINED namespace
 
 			buttonsValue.setCol(0, msg.buttons);
 			buttonsOutput.getSignal().setValue(buttonsValue);
-			// END OF USER DEFINED
-		}
-
-		virtual void run() {
-//			ros::getGlobalCallbackQueue()->callAvailable();		// calls callback fct. for all available messages
-			ros::getGlobalCallbackQueue()->callOne();			// calls callback fct. only for the oldest message
 		}
 
 
@@ -83,10 +71,6 @@ namespace testapp {													// USER DEFINED namespace
 
 		//ROS variables
 		ros::NodeHandle& rosNodeHandler;
-		ros::Subscriber subscriber;
-		const std::string& topic;
-
-
 
 	private:
 	};

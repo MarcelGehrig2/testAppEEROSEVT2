@@ -8,10 +8,9 @@
 #include <eeros/control/TimeDomain.hpp> 
 
 #include <eeros/control/Constant.hpp>
-#include <eeros/control/ReceiveTeleopTurtleKey.hpp>
-//#include <eeros/control/ROSBlock.hpp>
 
 #include "Print.hpp"
+#include <std_msgs/Float64.h>
 #include "ROSBlockTopic1.hpp"
 #include "ROSBlockTopic2.hpp"
 
@@ -28,16 +27,9 @@ namespace testapp {
 		
 		// Define blocks
 		Constant<int> constIntA;
-		Print<int> printIntA;
-//		ReceiveTeleopTurtleKey receiveKeyboard;
-//		ROSBlock<std_msgs::Float64> rosBlockA;
-//		MyROSBlock<sensor_msgs::Joy::Type, double> myROSBlock;
-		ROSBlockTopic1 rosBlockA;
-		ROSBlockTopic2 rosBlockB;
-		
-		
-// 		float maxPeriod[1000] = {0};
-// 		static constexpr double dt = 0.01;
+		Print<double> printIntA;
+		ROSBlockTopic1< std_msgs::Float64::Type, double > rosBlockA;
+		ROSBlockTopic2< sensor_msgs::Joy::Type > rosBlockB;
 				
 //	protected:
 		double dt;
@@ -46,6 +38,6 @@ namespace testapp {
 		eeros::control::TimeDomain timedomain;
 	}; // END class
 	
-}; // END namespace
+} // END namespace
 
 #endif // CH_NTB_TESTAPP_CONTROLSYSTEM_HPP_

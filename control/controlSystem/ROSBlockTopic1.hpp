@@ -2,87 +2,73 @@
 #define ROSBLOCKTOPIC1_HPP
 
 #include <ros/ros.h>
-#include <eeros/control/Block.hpp>
-#include <eeros/control/Output.hpp>
+#include <eeros/control/ROSBlock.hpp>
 #include <eeros/core/System.hpp>
 
 // includes used for ROS message types
 #include <std_msgs/Float64.h>
-#include <ros/callback_queue.h>
 //#include <sensor_msgs/Joy.h>
 //#include <sensor_msgs/LaserScan.h>
 
+using namespace eeros::control;
 
 namespace testapp {
-	class ROSBlockTopic1 : public eeros::control::Block {
-
-		// USER DEFINED: Adapt the type definitions for your application.
-		//               Multiple outputs are possible.
-		//               It is not easily possible, to subscribe to multiple ROS topics with one block
-		typedef std_msgs::Float64::Type		typeROSMessage;		// Depends on ROS topic
-		typedef double						typeOutput;			// Depends on desired block output
-		// END OF USER DEFINED
+	template < typename TMsg, typename TOutput = double >
+		class ROSBlockTopic1 : public ROSBlock< TMsg > {
 
 	public:
-		ROSBlockTopic1(ros::NodeHandle& rosNodeHandler, const std::string& topic, uint32_t queueSize=10) :
-		rosNodeHandler(rosNodeHandler),
-		topic (topic)
+		ROSBlockTopic1(ros::NodeHandle& rosNodeHandler, const std::string& topic, uint32_t queueSize=1000) :
+			rosNodeHandler(rosNodeHandler),
+			ROSBlock< TMsg >( rosNodeHandler, topic, queueSize )
 		{
-			out.getSignal().clear();	//clear EEROS signal
-
-			subscriber = rosNodeHandler.subscribe(topic, queueSize, &ROSBlockTopic1::rosCallbackFct, this);
-			ROS_DEBUG_STREAM("ROSBlock, reading from topic: '" << topic << "' created.");
+			//clear all EEROS signals
+			out.getSignal().clear();
 		}
 
 
-		virtual void rosCallbackFct(const typeROSMessage& msg) {
-			out.getSignal().setTimestamp(eeros::System::getTimeNs());
+		void rosCallbackFct(const TMsg& msg) {
+//			auto start = std::chrono::steady_clock::now();
+//				ROS_INFO_STREAM("rosCallbackFct: '" << msg.data);
+//			auto stop = std::chrono::steady_clock::now();
+//			std::chrono::duration<int, std::nano> duration = stop - start;	//nsec allways int.
+//			//std::chrono::duration<double, std::milli> duration = stop - start;	//cast to msec
+//			std::cout << "Duration 'ROS_INFO_STREAM': " << duration.count() << " nsec" << std::endl;
 
-			// USER DEFINED: 1.) Get the data from the message
-			//               2.) Cast the data if necessary
-			//               3.) Insert the data in the output signal
-			outValue = static_cast<typeOutput>( msg.data );		// depends heavily ond the type of the ROS message
-			out.getSignal().setValue( outValue );
-			// END OF USER DEFINED
+//			start = std::chrono::steady_clock::now();
+//				std::cout << "rosCallbackFct: '" << msg.data << std::endl;
+//			stop = std::chrono::steady_clock::now();
+//			duration = stop - start;	//nsec allways int.
+//			//std::chrono::duration<double, std::milli> duration = stop - start;	//cast to msec
+//			std::cout << "Duration 'std::cout': " << duration.count() << " nsec" << std::endl;
+
+
+			// USER DEFINED: 1.) Set timestamp for all outputs
+			//               2.) Get the data from the message
+			//               3.) Cast the data if necessary
+			//               4.) Insert the data into output
+
+			auto time = eeros::System::getTimeNs();
+			out.getSignal().setTimestamp( time );
+
+			out.getSignal().setValue(static_cast< TOutput >( msg.data) );	// depends heavily ond the type of the ROS message
 		}
 
-
-		virtual void run() {
-//			ros::getGlobalCallbackQueue()->callAvailable();		// calls callback fct. for all available messages
-			ros::getGlobalCallbackQueue()->callOne();			// calls callback fct. only for the oldest message
-		}
-
-
-		virtual eeros::control::Output<typeOutput>& getOut() {
+		// USER DEFINED: Add a 'getOut()' function for each output
+		virtual eeros::control::Output< TOutput >& getOut() {
 			return out;
 		}
 
 
 	protected:
-		eeros::control::Output<typeOutput> out;
-		typeOutput outValue;
+		eeros::control::Output< TOutput > out;
+		TOutput outValue;
 
 		//ROS variables
+		// USER DEFINED: Necessary member variables
 		ros::NodeHandle& rosNodeHandler;
-		ros::Subscriber subscriber;
-		const std::string& topic;
 
 	private:
-//			template <typename S> typename std::enable_if<std::is_arithmetic<S>::value>::type _clear() {
-//				value = std::numeric_limits<double>::quiet_NaN();
-//			}
-
-//			template <typename S> typename std::enable_if<!std::is_arithmetic<S>::value>::type _clear() {
-//				value.fill(std::numeric_limits<double>::quiet_NaN());
-//			}
 	};
-
-//		/********** Print functions **********/
-//		template <typename T>
-//		std::ostream& operator<<(std::ostream& os, ROSBlock<T>& c) {
-//			os << "ROSBlockTopic1: '" << c.getName() << "' init val = " << c.value;
-//		}
-};
-
+}
 
 #endif // ROSBLOCKTOPIC1_HPP
