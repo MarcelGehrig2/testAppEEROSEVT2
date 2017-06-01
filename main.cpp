@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 //	ROS_INFO("%s", "Hello World");
 //	ROS_DEBUG("Hello %s", "World");
 	
-	double dt = 0.001;
+	double dt = 0.5;
 	
 	StreamLogWriter w(std::cout);
 	w.show(LogLevel::TRACE);
@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
 	// Lambda function for logging signals in CS
 	// /////////////////////////////////////////
 	eeros::task::Lambda l1 ([&] () { });
-	eeros::task::Periodic perLog("periodic log", 1, l1);
+	eeros::task::Periodic perLog("periodic log", 0.5, l1);
 	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
 		log.info() << "ROSTopic 1: " << controlSystem.rosBlockA.getOut().getSignal();
 		log.info() << "ROSTopic 2 Axes: " << controlSystem.rosBlockB.getAxesOut().getSignal();

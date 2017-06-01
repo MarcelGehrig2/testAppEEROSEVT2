@@ -17,7 +17,7 @@ dt(dt),
 rosNodeHandler(rosNodeHandler),
 	
 constIntA(4),
-printIntA(1000),
+printIntA(1),
 //receiveKeyboard(rosNodeHandler),
 rosBlockA(rosNodeHandler, "/testNode/TestTopic1"),
 rosBlockB(rosNodeHandler, "/testNode/TestTopic2"),

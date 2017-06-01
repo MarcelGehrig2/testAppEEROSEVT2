@@ -47,7 +47,7 @@ namespace testapp {													// USER DEFINED namespace
 
 			axesOutput.getSignal().setTimestamp( time );
 			buttonsOutput.getSignal().setTimestamp( time );
-
+			
 			std::vector<double> tmp( msg.axes.begin(), msg.axes.end() );	//cast because axes is a float32 vector
 			axesValue.setCol(0, tmp);
 			axesOutput.getSignal().setValue(axesValue);
@@ -58,7 +58,8 @@ namespace testapp {													// USER DEFINED namespace
 		}
 
 		virtual void run() {
-			ros::spinOnce();	//every run, ROS checks, if there is a new message on subscribed topic
+//			ros::getGlobalCallbackQueue()->callAvailable();		// calls callback fct. for all available messages
+			ros::getGlobalCallbackQueue()->callOne();			// calls callback fct. only for the oldest message
 		}
 
 

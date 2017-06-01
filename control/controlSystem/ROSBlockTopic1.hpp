@@ -8,6 +8,7 @@
 
 // includes used for ROS message types
 #include <std_msgs/Float64.h>
+#include <ros/callback_queue.h>
 //#include <sensor_msgs/Joy.h>
 //#include <sensor_msgs/LaserScan.h>
 
@@ -23,7 +24,7 @@ namespace testapp {
 		// END OF USER DEFINED
 
 	public:
-		ROSBlockTopic1(ros::NodeHandle& rosNodeHandler, const std::string& topic, uint32_t queueSize=1000) :
+		ROSBlockTopic1(ros::NodeHandle& rosNodeHandler, const std::string& topic, uint32_t queueSize=10) :
 		rosNodeHandler(rosNodeHandler),
 		topic (topic)
 		{
@@ -35,7 +36,6 @@ namespace testapp {
 
 
 		virtual void rosCallbackFct(const typeROSMessage& msg) {
-
 			out.getSignal().setTimestamp(eeros::System::getTimeNs());
 
 			// USER DEFINED: 1.) Get the data from the message
@@ -48,7 +48,8 @@ namespace testapp {
 
 
 		virtual void run() {
-			ros::spinOnce();	//every run, ROS checks, if there is a new message on subscribed topic
+//			ros::getGlobalCallbackQueue()->callAvailable();		// calls callback fct. for all available messages
+			ros::getGlobalCallbackQueue()->callOne();			// calls callback fct. only for the oldest message
 		}
 
 

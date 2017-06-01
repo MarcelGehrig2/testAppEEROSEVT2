@@ -4,6 +4,7 @@
 
 #include <ros/ros.h>
 #include <std_msgs/Float64.h>
+#include <sensor_msgs/Joy.h>
 #include <eeros/control/TimeDomain.hpp> 
 
 #include <eeros/control/Constant.hpp>
@@ -30,6 +31,7 @@ namespace testapp {
 		Print<int> printIntA;
 //		ReceiveTeleopTurtleKey receiveKeyboard;
 //		ROSBlock<std_msgs::Float64> rosBlockA;
+//		MyROSBlock<sensor_msgs::Joy::Type, double> myROSBlock;
 		ROSBlockTopic1 rosBlockA;
 		ROSBlockTopic2 rosBlockB;
 		
