@@ -85,6 +85,19 @@ int main(int argc, char **argv) {
 	TestAppSafetyProperties safetyProperties(&controlSystem);
 	eeros::safety::SafetySystem safetySystem(safetyProperties, dt);
 	
+
+	// Timing measurements
+	// ///////////////////
+	typedef std::chrono::steady_clock clock;
+	auto start = clock::now();
+	auto stop = clock::now();
+	std::chrono::duration<int, std::nano> duration;
+	int i;
+
+	// Performance Measurements EEROS logger
+#include "measurementsEEROSLogger.hpp"
+
+
 	executor.setMainTask(safetySystem);
 	
 	

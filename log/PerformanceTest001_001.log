@@ -1,0 +1,82 @@
+2017-06-16 15:19:54    I:  EEROS started
+2017-06-16 15:19:54    T:  ROS node initialized.
+2017-06-16 15:19:54  S W:  safety system verified: 5 safety levels are present
+2017-06-16 15:19:54    I:  ROS_INFO 
+Itterations: 1 Duration per itteration: 14 usec
+2017-06-16 15:19:54    I:  ROS_INFO 
+Itterations: 1 Duration per itteration: 11 usec
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+2017-06-16 15:19:54    I:  ROS_INFO 
+Itterations: 10 Duration per itteration: 12 usec
+2017-06-16 15:19:54    I:  ROS_INFO 
+After 0sec sleep. Duration for one itteration: 6 usec
+2017-06-16 15:19:54    I:  ROS_INFO 
+After 0sec sleep. Duration for one itteration: 12 usec
+2017-06-16 15:19:54    I:  ROS_INFO 
+After 0sec sleep. Duration for one itteration: 15 usec
+2017-06-16 15:19:55    I:  ROS_INFO 
+After 1sec sleep. Duration for one itteration: 52 usec
+2017-06-16 15:19:56    I:  ROS_INFO 
+After 1sec sleep. Duration for one itteration: 53 usec
+2017-06-16 15:19:57    I:  ROS_INFO 
+After 1sec sleep. Duration for one itteration: 71 usec
+2017-06-16 15:19:58    I:  ROS_INFO 
+After 1sec sleep. Duration for one itteration: 62 usec
+2017-06-16 15:19:59    I:  ROS_INFO 
+After 1sec sleep. Duration for one itteration: 37 usec
+
+2017-06-16 15:20:00    I:  executor.run()
+2017-06-16 15:20:00  E T:  starting executor with base period 0.5 sec and priority 49
+2017-06-16 15:20:00  E T:  assigning priorities
+2017-06-16 15:20:00  E T:  setting 'safety system' as main task
+2017-06-16 15:20:00  E T:  creating harmonic realtime task 'control system' with period 0.5 sec (k = 1) and priority 48 based on 'executor'
+2017-06-16 15:20:00  E T:  creating harmonic realtime task 'periodic log' with period 0.5 sec (k = 1) and priority 47 based on 'executor'
+2017-06-16 15:20:00  A T:  starting realtime thread 5128:5151 with priority 47
+2017-06-16 15:20:00  A T:  starting realtime thread 5128:5150 with priority 48
+2017-06-16 15:20:01  E T:  starting periodic execution
+nan
+2017-06-16 15:20:01  S I:  triggering event: 'start initializing' in level 'initializing'
+2017-06-16 15:20:01  S I:  new safety level: 'initialized'
+nan
+2017-06-16 15:20:02  S I:  triggering event: 'start running' in level 'initialized'
+2017-06-16 15:20:02  S I:  new safety level: 'running'
+2017-06-16 15:20:02    I:  ROSTopic 1: Signal: '' timestamp = 140733140493684 value = nan
+2017-06-16 15:20:02    I:  ROSTopic 2 Axes: Signal: '' timestamp = 140733140494048 value = [nan nan nan]' 
+2017-06-16 15:20:02    I:  ROSTopic 2 Buttons: Signal: '' timestamp = 4294967295 value = [-2147483648 -2147483648 -2147483648 -2147483648 -2147483648]' 
+nan
+2017-06-16 15:20:02    I:  ROSTopic 1: Signal: '' timestamp = 140733140493684 value = nan
+2017-06-16 15:20:02    I:  ROSTopic 2 Axes: Signal: '' timestamp = 140733140494048 value = [nan nan nan]' 
+2017-06-16 15:20:02    I:  ROSTopic 2 Buttons: Signal: '' timestamp = 4294967295 value = [-2147483648 -2147483648 -2147483648 -2147483648 -2147483648]' 
+nan
+2017-06-16 15:20:03    I:  ROSTopic 1: Signal: '' timestamp = 140733140493684 value = nan
+2017-06-16 15:20:03    I:  ROSTopic 2 Axes: Signal: '' timestamp = 140733140494048 value = [nan nan nan]' 
+2017-06-16 15:20:03    I:  ROSTopic 2 Buttons: Signal: '' timestamp = 4294967295 value = [-2147483648 -2147483648 -2147483648 -2147483648 -2147483648]' 
+nan
+2017-06-16 15:20:03    I:  ROSTopic 1: Signal: '' timestamp = 140733140493684 value = nan
+2017-06-16 15:20:03    I:  ROSTopic 2 Axes: Signal: '' timestamp = 140733140494048 value = [nan nan nan]' 
+2017-06-16 15:20:03    I:  ROSTopic 2 Buttons: Signal: '' timestamp = 4294967295 value = [-2147483648 -2147483648 -2147483648 -2147483648 -2147483648]' 
+nan
+2017-06-16 15:20:04    I:  ROSTopic 1: Signal: '' timestamp = 140733140493684 value = nan
+2017-06-16 15:20:04    I:  ROSTopic 2 Axes: Signal: '' timestamp = 140733140494048 value = [nan nan nan]' 
+2017-06-16 15:20:04    I:  ROSTopic 2 Buttons: Signal: '' timestamp = 4294967295 value = [-2147483648 -2147483648 -2147483648 -2147483648 -2147483648]' 
+^Cmain: signalHandler
+2017-06-16 15:20:04  S T:  exitFunction
+2017-06-16 15:20:04  S I:  triggering event: 'start shutting down' in level 'running'
+2017-06-16 15:20:04  S I:  new safety level: 'shutting down'
+2017-06-16 15:20:04  S I:  triggering event: 'start switching off' in level 'shutting down'
+nan
+2017-06-16 15:20:04  S I:  new safety level: 'System off'
+2017-06-16 15:20:04  E T:  stopping all threads
+2017-06-16 15:20:04  E T:  joining all threads
+2017-06-16 15:20:04  A T:  stopping thread 5128:5150
+2017-06-16 15:20:04  A T:  stopping thread 5128:5151
+2017-06-16 15:20:04  E T:  exiting executor
+    

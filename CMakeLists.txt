@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
  
 project(testapptEEROSVT2)
- 
-find_package(EEROS REQUIRED)
+
 
 ## ucl++ workaround
 ## ////////////////////////////////////////////////////////////////////////
@@ -12,8 +11,8 @@ link_directories("/home/mgehrig2/VT2/Software/eeros-framework/buildx86/libucl-bu
 
 ## ROS
 ## ////////////////////////////////////////////////////////////////////////
-include_directories("/opt/ros/kinetic/include")
-link_directories("/opt/ros/kinetic/lib")
+#include_directories("/opt/ros/kinetic/include")
+#link_directories("/opt/ros/kinetic/lib")
 
 
 ## ROS without catkin
@@ -40,6 +39,7 @@ endif()
 
 
 
+find_package(EEROS REQUIRED)
 include_directories(${EEROS_INCLUDE_DIR})
 link_directories(${EEROS_LIB_DIR})
 
@@ -57,7 +57,6 @@ add_executable(testappEEROSVT2
 
 	
 )
-
 
 
 
