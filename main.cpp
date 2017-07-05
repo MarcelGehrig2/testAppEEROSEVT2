@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 //	ROS_INFO("%s", "Hello World");
 //	ROS_DEBUG("Hello %s", "World");
 	
-	double dt = 0.5;
+	double dt = 0.001;
 	
 	StreamLogWriter w(std::cout);
 	w.show(LogLevel::TRACE);
@@ -62,6 +62,7 @@ int main(int argc, char **argv) {
 	ros::init(dummy_argc, dummy_args, "EEROSNode");
 	log.trace() << "ROS node initialized.";
 	ros::NodeHandle rosNodeHandler;
+	rosNodeHandler.setParam("/use_sim_time", true);		// sumulation time (i.e. with gazebo)
 //	rosNodeHandle ros::NodeHandle;
 	
 	

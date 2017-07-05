@@ -49,13 +49,20 @@ namespace testapp {
 
 			auto time = eeros::System::getTimeNs();
 			out.getSignal().setTimestamp( time );
-
-			out.getSignal().setValue(static_cast< TOutput >( msg.data) );	// depends heavily ond the type of the ROS message
+			outValue = msg.data;
+			out.getSignal().setValue(static_cast< TOutput >( outValue ) );	// depends heavily ond the type of the ROS message
 		}
 
 		// USER DEFINED: Add a 'getOut()' function for each output
 		virtual eeros::control::Output< TOutput >& getOut() {
 			return out;
+		}
+
+		virtual void run() {
+//			ros::getGlobalCallbackQueue()->callAvailable();		// calls callback fct. for all available messages.
+																//  Only newest message is processed. Older ones are discarded.
+			ros::getGlobalCallbackQueue()->callOne();			// calls callback fct. only for the oldest message
+			ROS_DEBUG_STREAM(outValue);
 		}
 
 

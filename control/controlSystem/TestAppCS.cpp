@@ -29,14 +29,14 @@ timedomain("Main time domain", dt, true)
 {
 		
 	// Connect Blocks
-	printIntA.getIn().connect(rosBlockA.getOut());
+//	printIntA.getIn().connect(rosBlockA.getOut());
 			
 	
 	// Monitor for logging
 
 	// Run blocks
 	timedomain.addBlock(&constIntA);
-	timedomain.addBlock(&printIntA);
+//	timedomain.addBlock(&printIntA);
 //	timedomain.addBlock(&receiveKeyboard);
 	timedomain.addBlock(&rosBlockA);
 	timedomain.addBlock(&rosBlockB);
