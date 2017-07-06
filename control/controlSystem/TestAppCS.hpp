@@ -5,7 +5,10 @@
 #include <ros/ros.h>
 #include <std_msgs/Float64.h>
 #include <sensor_msgs/Joy.h>
-#include <eeros/control/TimeDomain.hpp> 
+#include <eeros/control/TimeDomain.hpp>
+#include <eeros/control/PeripheralOutput.hpp>
+#include <eeros/control/PeripheralInput.hpp>
+#include <eeros/hal/HAL.hpp>
 
 #include <eeros/control/Constant.hpp>
 
@@ -27,9 +30,15 @@ namespace testapp {
 		
 		// Define blocks
 		Constant<int> constIntA;
-		Print<double> printIntA;
+		Constant<double> constDoubleA;
+		Print<int> printIntA;
+		Print<double> printDoubleA;
 		ROSBlockTopic1< std_msgs::Float64::Type, double > rosBlockA;
-		ROSBlockTopic2< sensor_msgs::Joy::Type > rosBlockB;
+//		ROSBlockTopic2< sensor_msgs::Joy::Type > rosBlockB;
+
+		//HAL
+		PeripheralOutput<double> anOut0;
+		PeripheralInput<double> anIn0;
 				
 //	protected:
 		double dt;

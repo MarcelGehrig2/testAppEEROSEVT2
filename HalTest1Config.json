@@ -1,0 +1,57 @@
+{
+	"device1": {
+		"library": "libroseeros.so",
+		"devHandle": "testNodeHAL",
+		"subdevice2": {
+			"type": "AnalogIn",
+			"channel10": {
+				"signalId": "/testNode/TestTopic1",
+				"scale": [ { "id" : "dac",
+								"scale":	1,
+								"offset":	0.0	}
+					 ],
+				"range": [ { "id" : "dac",
+							"minIn":	0,  	"maxIn": 	5,
+							"minOut":	-10.0,	"maxOut": 	10.0 }
+					 ],
+				"unit": "V"
+			}
+		}
+		
+	},
+	"device2": {
+		"library": "libsimeeros.so",
+		"devHandle": "reflect",
+		"subdevice4": {
+			"type": "AnalogOut",
+			"channel0": {
+				"signalId": "aOut0",
+				"scale": [ { "id" : "dac",
+								"minIn": 	0, 	"maxIn": 	65535,
+								"minOut": 	-10.0, "maxOut": 	10.0 }
+					 ],
+				"range": [ { "id" : "dac",
+							"minIn":	0,  	"maxIn": 	65536,
+							"minOut":	-10.0,	"maxOut": 	10.0 }
+					 ],
+				"unit": "V"
+			}
+		},
+		"subdevice5": {
+			"type": "AnalogIn",
+			"channel1": {
+				"signalId": "aIn0",
+				"scale": [ { "id" : "adc",
+								"minIn": 	-10.0, 	"maxIn": 	10.0,
+								"minOut": 	0, 	"maxOut": 	65535 }
+					 ],
+				"range": [ { "id" : "adc",
+							"minIn":	-10.0, 	"maxIn": 	10.0 ,
+							"minOut":	0,	"maxOut": 	65535 }
+					 ],
+				"unit": "V"
+			}
+		}
+	}
+}
+

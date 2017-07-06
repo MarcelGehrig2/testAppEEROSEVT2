@@ -6,6 +6,7 @@
 #include "std_msgs/String.h"
 #include <sstream>
 
+#include <eeros/hal/HAL.hpp>
 #include <eeros/core/Executor.hpp>
 #include <eeros/task/Lambda.hpp>
 #include <eeros/safety/SafetySystem.hpp>
@@ -41,7 +42,7 @@ int main(int argc, char **argv) {
 //	ROS_INFO("%s", "Hello World");
 //	ROS_DEBUG("Hello %s", "World");
 	
-	double dt = 0.001;
+	double dt = 0.2;
 	
 	StreamLogWriter w(std::cout);
 	w.show(LogLevel::TRACE);
@@ -50,10 +51,17 @@ int main(int argc, char **argv) {
 
  
 	log.info() << "EEROS started";
+
+	// HAL
+	// ////////////////////////////////////////////////////////////////////////
+	HAL& hal = HAL::instance();
+	hal.readConfigFromFile(&argc, argv);
 	
+
 	// Executor
 	// ////////////////////////////////////////////////////////////////////////
 	auto &executor = eeros::Executor::instance();
+
 
 	// ROS
 	// ////////////////////////////////////////////////////////////////////////
@@ -70,16 +78,16 @@ int main(int argc, char **argv) {
 	// ////////////////////////////////////////////////////////////////////////
 	testapp::TestAppCS controlSystem (dt, rosNodeHandler);
 
-	// Lambda function for logging signals in CS
-	// /////////////////////////////////////////
-	eeros::task::Lambda l1 ([&] () { });
-	eeros::task::Periodic perLog("periodic log", 0.5, l1);
-	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
-		log.info() << "ROSTopic 1: " << controlSystem.rosBlockA.getOut().getSignal();
-		log.info() << "ROSTopic 2 Axes: " << controlSystem.rosBlockB.getAxesOut().getSignal();
-		log.info() << "ROSTopic 2 Buttons: " << controlSystem.rosBlockB.getButtonsOut().getSignal();
-	});
-	executor.add(perLog);
+//	// Lambda function for logging signals in CS
+//	// /////////////////////////////////////////
+//	eeros::task::Lambda l1 ([&] () { });
+//	eeros::task::Periodic perLog("periodic log", 0.5, l1);
+//	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
+//		log.info() << "ROSTopic 1: " << controlSystem.rosBlockA.getOut().getSignal();
+////		log.info() << "ROSTopic 2 Axes: " << controlSystem.rosBlockB.getAxesOut().getSignal();
+////		log.info() << "ROSTopic 2 Buttons: " << controlSystem.rosBlockB.getButtonsOut().getSignal();
+//	});
+//	executor.add(perLog);
 	
 	// Safety System
 	// ////////////////////////////////////////////////////////////////////////
