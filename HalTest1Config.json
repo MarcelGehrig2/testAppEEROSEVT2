@@ -2,20 +2,33 @@
 	"device1": {
 		"library": "libroseeros.so",
 		"devHandle": "testNodeHAL",
-		"subdevice2": {
+		"subdevice0": {
 			"type": "AnalogIn",
-			"channel10": {
-				"signalId": "/testNode/TestTopic1",
+			"channel0": {
+				"signalId": "simpleRosIn0",
 				"scale": [ { "id" : "dac",
 								"scale":	1,
 								"offset":	0.0	}
 					 ],
 				"range": [ { "id" : "dac",
-							"minIn":	0,  	"maxIn": 	5,
-							"minOut":	-10.0,	"maxOut": 	10.0 }
+							"minIn":	-9e99,  	"maxIn": 	9e99,
+							"minOut":	-9e99,	"maxOut": 	9e99 }
 					 ],
 				"unit": "V",
-				"additionalArguments": "std_msgs::Float64"
+				"additionalArguments": "topic=/testNode/TestTopic1; msgType=std_msgs::Float64"
+			},
+			"channel1": {
+				"signalId": "rosInScanTime",
+				"scale": [ { "id" : "dac",
+								"scale":	1,
+								"offset":	0.0	}
+					 ],
+				"range": [ { "id" : "dac",
+							"minIn":	-9e99,  	"maxIn": 	9e99,
+							"minOut":	-9e99,	"maxOut": 	9e99 }
+					 ],
+				"unit": "V",
+				"additionalArguments": "dataMember=scan_time; topic=/testNode/TestTopic3; msgType=sensor_msgs::LaserScan; callOne=false; queueSize=100"
 			}
 		}
 		

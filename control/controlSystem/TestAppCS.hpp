@@ -33,12 +33,14 @@ namespace testapp {
 //		Constant<double> constDoubleA;
 //		Print<int> printIntA;
 		Print<double> printDoubleA;
+		Print<double> printDoubleB;
 //		ROSBlockTopic1< std_msgs::Float64::Type, double > rosBlockA;
 //		ROSBlockTopic2< sensor_msgs::Joy::Type > rosBlockB;
 
 		//HAL
 //		PeripheralOutput<double> anOut0;
 		PeripheralInput<double> anIn0;
+		PeripheralInput<double> rosInScanTime0;
 				
 //	protected:
 		double dt;
