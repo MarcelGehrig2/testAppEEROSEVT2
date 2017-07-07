@@ -14,7 +14,8 @@
 							"minIn":	0,  	"maxIn": 	5,
 							"minOut":	-10.0,	"maxOut": 	10.0 }
 					 ],
-				"unit": "V"
+				"unit": "V",
+				"additionalArguments": "std_msgs::Float64"
 			}
 		}
 		
@@ -34,7 +35,7 @@
 							"minIn":	0,  	"maxIn": 	65536,
 							"minOut":	-10.0,	"maxOut": 	10.0 }
 					 ],
-				"unit": "V"
+				"unit": "V",
 			}
 		},
 		"subdevice5": {

@@ -15,18 +15,19 @@ using namespace eeros::control;
 using namespace std;
 
 
-TestAppCS::TestAppCS(double dt, ros::NodeHandle& rosNodeHandler) :
+//TestAppCS::TestAppCS(double dt, ros::NodeHandle& rosNodeHandler) :
+TestAppCS::TestAppCS(double dt) :
 dt(dt),
-rosNodeHandler(rosNodeHandler),
+//rosNodeHandler(rosNodeHandler),
 	
-constIntA(4),
-constDoubleA(2.2),
-printIntA(1),
+//constIntA(4),
+//constDoubleA(2.2),
+//printIntA(1),
 printDoubleA(1),
 //receiveKeyboard(rosNodeHandler),
-rosBlockA(rosNodeHandler, "/testNode/TestTopic1"),
+//rosBlockA(rosNodeHandler, "/testNode/TestTopic1"),
 //rosBlockB(rosNodeHandler, "/testNode/TestTopic2"),
-anOut0("aOut0"),
+//anOut0("aOut0"),
 anIn0("/testNode/TestTopic1"),
 
 timedomain("Main time domain", dt, true)
@@ -36,7 +37,7 @@ timedomain("Main time domain", dt, true)
 	// Connect Blocks
 //	printIntA.getIn().connect(rosBlockA.getOut());
 	printDoubleA.getIn().connect(anIn0.getOut());
-	anOut0.getIn().connect(rosBlockA.getOut());
+//	anOut0.getIn().connect(rosBlockA.getOut());
 
 			
 	
@@ -44,11 +45,11 @@ timedomain("Main time domain", dt, true)
 
 	// Run blocks
 	timedomain.addBlock(&anIn0);
-	timedomain.addBlock(&constIntA);
+//	timedomain.addBlock(&constIntA);
 //	timedomain.addBlock(&printIntA);
 //	timedomain.addBlock(&receiveKeyboard);
-	timedomain.addBlock(&rosBlockA);
-	timedomain.addBlock(&anOut0);
+//	timedomain.addBlock(&rosBlockA);
+//	timedomain.addBlock(&anOut0);
 //	timedomain.addBlock(&rosBlockB);
 	timedomain.addBlock(&printDoubleA);
 // 				

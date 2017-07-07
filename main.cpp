@@ -70,13 +70,14 @@ int main(int argc, char **argv) {
 	ros::init(dummy_argc, dummy_args, "EEROSNode");
 	log.trace() << "ROS node initialized.";
 	ros::NodeHandle rosNodeHandler;
-	rosNodeHandler.setParam("/use_sim_time", true);		// sumulation time (i.e. with gazebo)
+//	rosNodeHandler.setParam("/use_sim_time", true);		// sumulation time (i.e. with gazebo)
 //	rosNodeHandle ros::NodeHandle;
 	
 	
 	// Control System
 	// ////////////////////////////////////////////////////////////////////////
-	testapp::TestAppCS controlSystem (dt, rosNodeHandler);
+//	testapp::TestAppCS controlSystem (dt, rosNodeHandler);
+	testapp::TestAppCS controlSystem (dt);
 
 //	// Lambda function for logging signals in CS
 //	// /////////////////////////////////////////
@@ -104,7 +105,7 @@ int main(int argc, char **argv) {
 //// 	S.addMainSequence(&mainSequence);
 	
 	signal(SIGINT, signalHandler);		// Needs to be set after initialization of ROS
-	log.info() << "executor.run()";
+	log.info() << "executor.run():";
 	executor.run();
 
 //	threadFinishd = true;

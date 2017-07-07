@@ -23,26 +23,26 @@ namespace testapp {
 	
 	class TestAppCS {		
 	public:
-//		TestAppCS(double dt);
-		TestAppCS(double dt, ros::NodeHandle& rosNodeHandler);
+		TestAppCS(double dt);
+//		TestAppCS(double dt, ros::NodeHandle& rosNodeHandler);
 		
 		std::string test = "test erfolgreich";
 		
 		// Define blocks
-		Constant<int> constIntA;
-		Constant<double> constDoubleA;
-		Print<int> printIntA;
+//		Constant<int> constIntA;
+//		Constant<double> constDoubleA;
+//		Print<int> printIntA;
 		Print<double> printDoubleA;
-		ROSBlockTopic1< std_msgs::Float64::Type, double > rosBlockA;
+//		ROSBlockTopic1< std_msgs::Float64::Type, double > rosBlockA;
 //		ROSBlockTopic2< sensor_msgs::Joy::Type > rosBlockB;
 
 		//HAL
-		PeripheralOutput<double> anOut0;
+//		PeripheralOutput<double> anOut0;
 		PeripheralInput<double> anIn0;
 				
 //	protected:
 		double dt;
-		ros::NodeHandle& rosNodeHandler;
+//		ros::NodeHandle& rosNodeHandler;
 		bool realtime;
 		eeros::control::TimeDomain timedomain;
 	}; // END class
