@@ -38,28 +38,7 @@ seSwitchingOff			("start switching off")
 	addLevel(slIinitializing);
 	addLevel(slInitialized);
 	addLevel(slRunning);
-    // Create HAL instance
- //   HAL& hal = HAL::instance();
- 
-    // ***** Define critical outputs ***** //
-//     watchdog = hal.getLogicPeripheralOutput("watchdog");
-//     criticalOutputs = {watchdog};
- 
-    // ***** Define critical inputs ***** //
-//     emergencyButton = hal.getLogicPeripheralInput("emergencyButton");
-//     criticalInputs = {emergencyButton};
- 
-    // ***** Define levels ***** //
-// // 	enum {
-// // 		off = 1,
-// // 		running = 2,
-// // 	};
-// //   
-// // 	levels = 	{
-// // 				{off,       	"system off",		},
-// // 				{running,	"system running ",	},
-// // 	};
-// //  
+
 	// ############ Add events to the levels ############
 	slIinitializing.addEvent(	seStartInitializing,	slInitialized,				kPrivateEvent);
 	slInitialized.addEvent(		seStartRunning,			slRunning,					kPrivateEvent);
@@ -67,12 +46,6 @@ seSwitchingOff			("start switching off")
 	slShuttingDown.addEvent(	seSwitchingOff,			slOff,						kPrivateEvent);
 
 	addEventToLevelAndAbove(	slInitialized,	seShutDown, slShuttingDown, kPublicEvent);
- 
-    // ***** Define inputs actions ***** //
-//      level(off      ).setInputActions({ ignore(emergencyButton), ignore(encoder)});
- 
-    // ***** Define output actions ***** //
-//      level(off      ).setOutputActions({ set(watchdog, false), set(enable, false)});
  
 	// Define and add level functions
 	slIinitializing.setLevelAction([&](SafetyContext* privateContext) {
@@ -87,9 +60,6 @@ seSwitchingOff			("start switching off")
 	slInitialized.setLevelAction([&](SafetyContext* privateContext) {
 		privateContext->triggerEvent(seStartRunning);
 	});
-	slRunning.setLevelAction([&](SafetyContext* privateContext){
-//		privateContext->triggerEvent(se);
-	});
 
 	// Define entry level
 	setEntryLevel(slIinitializing);
@@ -99,9 +69,6 @@ seSwitchingOff			("start switching off")
 		log.trace() << "exitFunction";
 		privateContext->triggerEvent(seShutDown);
 	};
-
-    
-    
 }
  
 TestAppSafetyProperties::~TestAppSafetyProperties() {

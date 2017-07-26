@@ -9,8 +9,8 @@ fi
 SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
 SCRIPT_NAME=$(basename $SCRIPT_PATH)
 
-cp -pfr $SCRIPT_DIR/HalTest1Config.json $SCRIPT_DIR/buildx86/
-echo $SCRIPT_DIR/HalTest1Config.json $SCRIPT_DIR/buildx86/
+cp -pfr $SCRIPT_DIR/HalTest3ConfigRos.json $SCRIPT_DIR/buildx86/
+echo $SCRIPT_DIR/HalTest3ConfigRos.json $SCRIPT_DIR/buildx86/
 pushd $SCRIPT_DIR/buildx86/
-sudo -E ./testappEEROSVT2 -c HalTest1Config.json
+sudo -E ./testappEEROSVT2 -c HalTest3ConfigRos.json
 

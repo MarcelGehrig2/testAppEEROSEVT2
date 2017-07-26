@@ -3,19 +3,19 @@
 
 
 #include <ros/ros.h>
-#include <std_msgs/Float64.h>
-#include <sensor_msgs/Joy.h>
+//#include <std_msgs/Float64.h>
+//#include <sensor_msgs/Joy.h>
+//#include <std_msgs/Float64.h>
 #include <eeros/control/TimeDomain.hpp>
 #include <eeros/control/PeripheralOutput.hpp>
 #include <eeros/control/PeripheralInput.hpp>
 #include <eeros/hal/HAL.hpp>
 
-#include <eeros/control/Constant.hpp>
+//#include <eeros/control/Constant.hpp>
 
 #include "Print.hpp"
-#include <std_msgs/Float64.h>
-#include "ROSBlockTopic1.hpp"
-#include "ROSBlockTopic2.hpp"
+//#include "ROSBlockTopic1.hpp"
+//#include "ROSBlockTopic2.hpp"
 
 using namespace eeros::control;
 
@@ -25,22 +25,19 @@ namespace testapp {
 	public:
 		TestAppCS(double dt);
 //		TestAppCS(double dt, ros::NodeHandle& rosNodeHandler);
-		
-		std::string test = "test erfolgreich";
+
 		
 		// Define blocks
-//		Constant<int> constIntA;
-//		Constant<double> constDoubleA;
-//		Print<int> printIntA;
-		Print<double> printDoubleA;
-		Print<double> printDoubleB;
+		Print<double> printDouble0;
+		Print<bool> printBool0;
 //		ROSBlockTopic1< std_msgs::Float64::Type, double > rosBlockA;
 //		ROSBlockTopic2< sensor_msgs::Joy::Type > rosBlockB;
 
 		//HAL
-//		PeripheralOutput<double> anOut0;
-		PeripheralInput<double> anIn0;
-		PeripheralInput<double> rosInScanTime0;
+		PeripheralInput<double>		analogIn0;
+		PeripheralInput<bool>		digitalIn0;
+		PeripheralOutput<double>	analogOut0;
+		PeripheralOutput<bool>		digitalOut0;
 				
 //	protected:
 		double dt;

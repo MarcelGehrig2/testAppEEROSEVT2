@@ -26,7 +26,7 @@ namespace testapp {
 			
 			int modulo;
 			uint64_t counter;
-		};
+	};
 
 };
 
