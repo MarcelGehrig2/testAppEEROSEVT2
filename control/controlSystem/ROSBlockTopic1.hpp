@@ -12,21 +12,20 @@
 
 using namespace eeros::control;
 
-namespace testapp {
-	template < typename TMsg, typename TOutput = double >
-		class ROSBlockTopic1 : public ROSBlock< TMsg > {
+template < typename TMsg, typename TOutput = double >
+	class ROSBlockTopic1 : public ROSBlock< TMsg > {
 
-	public:
-		ROSBlockTopic1(ros::NodeHandle& rosNodeHandler, const std::string& topic, uint32_t queueSize=1000) :
-			rosNodeHandler(rosNodeHandler),
-			ROSBlock< TMsg >( rosNodeHandler, topic, queueSize )
-		{
-			//clear all EEROS signals
-			out.getSignal().clear();
-		}
+public:
+	ROSBlockTopic1(ros::NodeHandle& rosNodeHandler, const std::string& topic, uint32_t queueSize=1000) :
+		rosNodeHandler(rosNodeHandler),
+		ROSBlock< TMsg >( rosNodeHandler, topic, queueSize )
+	{
+		//clear all EEROS signals
+		out.getSignal().clear();
+	}
 
 
-		void rosCallbackFct(const TMsg& msg) {
+	void rosCallbackFct(const TMsg& msg) {
 //			auto start = std::chrono::steady_clock::now();
 //				ROS_INFO_STREAM("rosCallbackFct: '" << msg.data);
 //			auto stop = std::chrono::steady_clock::now();
@@ -42,40 +41,39 @@ namespace testapp {
 //			std::cout << "Duration 'std::cout': " << duration.count() << " nsec" << std::endl;
 
 
-			// USER DEFINED: 1.) Set timestamp for all outputs
-			//               2.) Get the data from the message
-			//               3.) Cast the data if necessary
-			//               4.) Insert the data into output
+		// USER DEFINED: 1.) Set timestamp for all outputs
+		//               2.) Get the data from the message
+		//               3.) Cast the data if necessary
+		//               4.) Insert the data into output
 
-			auto time = eeros::System::getTimeNs();
-			out.getSignal().setTimestamp( time );
-			outValue = msg.data;
-			out.getSignal().setValue(static_cast< TOutput >( outValue ) );	// depends heavily ond the type of the ROS message
-		}
+		auto time = eeros::System::getTimeNs();
+		out.getSignal().setTimestamp( time );
+		outValue = msg.data;
+		out.getSignal().setValue(static_cast< TOutput >( outValue ) );	// depends heavily ond the type of the ROS message
+	}
 
-		// USER DEFINED: Add a 'getOut()' function for each output
-		virtual eeros::control::Output< TOutput >& getOut() {
-			return out;
-		}
+	// USER DEFINED: Add a 'getOut()' function for each output
+	virtual eeros::control::Output< TOutput >& getOut() {
+		return out;
+	}
 
-		virtual void run() {
+	virtual void run() {
 //			ros::getGlobalCallbackQueue()->callAvailable();		// calls callback fct. for all available messages.
-																//  Only newest message is processed. Older ones are discarded.
-			ros::getGlobalCallbackQueue()->callOne();			// calls callback fct. only for the oldest message
-			ROS_DEBUG_STREAM(outValue);
-		}
+															//  Only newest message is processed. Older ones are discarded.
+		ros::getGlobalCallbackQueue()->callOne();			// calls callback fct. only for the oldest message
+		ROS_DEBUG_STREAM(outValue);
+	}
 
 
-	protected:
-		eeros::control::Output< TOutput > out;
-		TOutput outValue;
+protected:
+	eeros::control::Output< TOutput > out;
+	TOutput outValue;
 
-		//ROS variables
-		// USER DEFINED: Necessary member variables
-		ros::NodeHandle& rosNodeHandler;
+	//ROS variables
+	// USER DEFINED: Necessary member variables
+	ros::NodeHandle& rosNodeHandler;
 
-	private:
-	};
-}
+private:
+};
 
 #endif // ROSBLOCKTOPIC1_HPP

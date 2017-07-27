@@ -10,10 +10,10 @@ include_directories("/home/mgehrig2/VT2/Software/eeros-framework/buildx86/libucl
 link_directories("/home/mgehrig2/VT2/Software/eeros-framework/buildx86/libucl-build")
 
 
-## ROS
-## ////////////////////////////////////////////////////////////////////////
-include_directories("/opt/ros/kinetic/include")
-link_directories("/opt/ros/kinetic/lib")
+# ## ROS
+# ## ////////////////////////////////////////////////////////////////////////
+# include_directories("/opt/ros/kinetic/include")
+# link_directories("/opt/ros/kinetic/lib")
 
 
 ## ROS without catkin
@@ -36,24 +36,16 @@ endif()
 
 
 
-
-
-
-
 include_directories(${EEROS_INCLUDE_DIR})
 link_directories(${EEROS_LIB_DIR})
 
-include_directories(
-	control/controlSystem/ROSBlockTopic1.hpp
-)
  
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
  
 add_executable(testappEEROSVT2
 	main.cpp
 	
-	control/controlSystem/TestAppCS.cpp
-	control/safetySystem/TestAppSafetyProperties.cpp
+	control/controlSystem/MyControlSystem.cpp
 
 	
 )

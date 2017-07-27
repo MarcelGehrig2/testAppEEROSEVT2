@@ -15,40 +15,26 @@
 
 #include <eeros/logger/ROSLogWriter.hpp>
 
-#include "control/controlSystem/TestAppCS.hpp"
-#include "control/safetySystem/TestAppSafetyProperties.hpp"
+#include "control/controlSystem/MyControlSystem.hpp"
+#include "control/safetySystem/MySafetyProperties.hpp"
 
 using namespace eeros;
 using namespace eeros::logger;
-using namespace testapp;
-
-bool threadFinishd = false;
 
 
-volatile bool running = true;
 void signalHandler(int signum) {
-	std::cout << "main: signalHandler" << std::endl;
-	running = false;
-//	ros::shutdown();
-	SafetySystem::exitHandler();
+	Executor::stop();
 }
 
-
 int main(int argc, char **argv) {
-
-//	ros::init(argc, argv, "talker");
-//	ros::NodeHandle n;
-//	signal(SIGINT, signalHandler);		// Needs to be set after initialization of ROS
-//	ROS_INFO("%s", "Hello World");
-//	ROS_DEBUG("Hello %s", "World");
-	
 	double dt = 0.2;
 	
+	// Create and initialize logger
+	// ////////////////////////////////////////////////////////////////////////
 	StreamLogWriter w(std::cout);
-	w.show(LogLevel::TRACE);
 	Logger::setDefaultWriter(&w);
 	Logger log;
-
+	w.show();
  
 	log.info() << "EEROS started";
 
@@ -56,11 +42,15 @@ int main(int argc, char **argv) {
 	// ////////////////////////////////////////////////////////////////////////
 	HAL& hal = HAL::instance();
 	hal.readConfigFromFile(&argc, argv);
-	
-
-	// Executor
+		
+	// Control System
 	// ////////////////////////////////////////////////////////////////////////
-	auto &executor = eeros::Executor::instance();
+	MyControlSystem controlSystem(dt);
+	
+	// Safety System
+	// ////////////////////////////////////////////////////////////////////////
+	MySafetyProperties safetyProperties;
+	eeros::safety::SafetySystem safetySystem(safetyProperties, dt);
 
 
 	// ROS
@@ -74,11 +64,6 @@ int main(int argc, char **argv) {
 //	rosNodeHandle ros::NodeHandle;
 	
 	
-	// Control System
-	// ////////////////////////////////////////////////////////////////////////
-//	testapp::TestAppCS controlSystem (dt, rosNodeHandler);
-	testapp::TestAppCS controlSystem (dt);
-
 //	// Lambda function for logging signals in CS
 //	// /////////////////////////////////////////
 //	eeros::task::Lambda l1 ([&] () { });
@@ -90,13 +75,6 @@ int main(int argc, char **argv) {
 //	});
 //	executor.add(perLog);
 	
-	// Safety System
-	// ////////////////////////////////////////////////////////////////////////
-	TestAppSafetyProperties safetyProperties(&controlSystem);
-	eeros::safety::SafetySystem safetySystem(safetyProperties, dt);
-	
-	executor.setMainTask(safetySystem);
-	
 	
 //// 	// Sequencer
 //// 	// ////////////////////////////////////////////////////////////////////////
@@ -104,12 +82,13 @@ int main(int argc, char **argv) {
 //// 	MainSequence mainSequence(S, &controlSystem, "mainSequence");
 //// 	S.addMainSequence(&mainSequence);
 	
-	signal(SIGINT, signalHandler);		// Needs to be set after initialization of ROS
-	log.info() << "executor.run():";
-	executor.run();
-
-//	threadFinishd = true;
 	
-//		sleep(10);
+	// Executor
+	// ////////////////////////////////////////////////////////////////////////
+	signal(SIGINT, signalHandler);	
+	auto &executor = Executor::instance();
+	executor.setMainTask(safetySystem);
+	executor.run();
+	
 	return 0;
 }
