@@ -1,36 +1,29 @@
 #ifndef CH_NTB_TESTAPP_CONTROLSYSTEM_HPP_
 #define CH_NTB_TESTAPP_CONTROLSYSTEM_HPP_
 
-
-#include <ros/ros.h>
-//#include <std_msgs/Float64.h>
-//#include <sensor_msgs/Joy.h>
-//#include <std_msgs/Float64.h>
 #include <eeros/control/TimeDomain.hpp>
 #include <eeros/control/PeripheralOutput.hpp>
 #include <eeros/control/PeripheralInput.hpp>
 #include <eeros/hal/HAL.hpp>
 
-//#include <eeros/control/Constant.hpp>
-
 #include "Print.hpp"
-//#include "ROSBlockTopic1.hpp"
-//#include "ROSBlockTopic2.hpp"
+#include "RosBlockSubscriber_SensorMsgs_LaserScan.hpp"
+#include "RosBlockPublisher_SensorMsgs_LaserScan.hpp"
 
 using namespace eeros::control;
 
 
 class MyControlSystem {		
 public:
-	MyControlSystem(double dt);
-//		MyControlSystem(double dt, ros::NodeHandle& rosNodeHandler);
+// 	MyControlSystem(double dt);
+	MyControlSystem(double dt, ros::NodeHandle& rosNodeHandler);
 
 	
 	// Define blocks
 	Print<double> printDouble0;
 	Print<bool> printBool0;
-//		ROSBlockTopic1< std_msgs::Float64::Type, double > rosBlockA;
-//		ROSBlockTopic2< sensor_msgs::Joy::Type > rosBlockB;
+	RosBlockSubscriber_SensorMsgs_LaserScan laserScanIn;
+	RosBlockPublisher_SensorMsgs_LaserScan	laserScanOut;
 
 	//HAL
 	PeripheralInput<double>		analogIn0;
@@ -40,7 +33,7 @@ public:
 			
 //	protected:
 	double dt;
-//		ros::NodeHandle& rosNodeHandler;
+	ros::NodeHandle& rosNodeHandler;
 	bool realtime;
 	eeros::control::TimeDomain timedomain;
 };

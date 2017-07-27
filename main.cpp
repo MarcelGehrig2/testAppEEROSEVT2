@@ -42,16 +42,6 @@ int main(int argc, char **argv) {
 	// ////////////////////////////////////////////////////////////////////////
 	HAL& hal = HAL::instance();
 	hal.readConfigFromFile(&argc, argv);
-		
-	// Control System
-	// ////////////////////////////////////////////////////////////////////////
-	MyControlSystem controlSystem(dt);
-	
-	// Safety System
-	// ////////////////////////////////////////////////////////////////////////
-	MySafetyProperties safetyProperties;
-	eeros::safety::SafetySystem safetySystem(safetyProperties, dt);
-
 
 	// ROS
 	// ////////////////////////////////////////////////////////////////////////
@@ -60,6 +50,16 @@ int main(int argc, char **argv) {
 	ros::init(dummy_argc, dummy_args, "EEROSNode");
 	log.trace() << "ROS node initialized.";
 	ros::NodeHandle rosNodeHandler;
+		
+	// Control System
+	// ////////////////////////////////////////////////////////////////////////
+	MyControlSystem controlSystem(dt, rosNodeHandler);
+	
+	// Safety System
+	// ////////////////////////////////////////////////////////////////////////
+	MySafetyProperties safetyProperties;
+	eeros::safety::SafetySystem safetySystem(safetyProperties, dt);
+
 //	rosNodeHandler.setParam("/use_sim_time", true);		// sumulation time (i.e. with gazebo)
 //	rosNodeHandle ros::NodeHandle;
 	
