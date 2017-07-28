@@ -12,7 +12,6 @@
 
 using namespace eeros::control;
 
-
 class MyControlSystem {		
 public:
 // 	MyControlSystem(double dt);
@@ -22,8 +21,13 @@ public:
 	// Define blocks
 	Print<double> printDouble0;
 	Print<bool> printBool0;
-	RosBlockSubscriber_SensorMsgs_LaserScan laserScanIn;
-	RosBlockPublisher_SensorMsgs_LaserScan	laserScanOut;
+	
+	typedef eeros::math::Matrix< 5, 1, double >		TRangesOutput;
+	typedef eeros::math::Matrix< 5, 1, double >		TIntensitiesOutput;
+	RosBlockSubscriber_SensorMsgs_LaserScan<TRangesOutput, TIntensitiesOutput>	laserScanIn;
+	typedef eeros::math::Matrix< 5, 1, double >		TRangesInput;
+	typedef eeros::math::Matrix< 5, 1, double >		TIntensitiesInput;
+	RosBlockPublisher_SensorMsgs_LaserScan<TRangesInput, TIntensitiesInput>		laserScanOut;
 
 	//HAL
 	PeripheralInput<double>		analogIn0;

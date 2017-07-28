@@ -2,7 +2,6 @@
 #include <iomanip>
 
 #include <eeros/core/Executor.hpp>
-
 #include "MyControlSystem.hpp"
 
 using namespace eeros::control;
@@ -28,8 +27,10 @@ timedomain("Main time domain", dt, true)
 
 {
 	// Connect Blocks
-	laserScanOut.getAngle_minIn().connect(laserScanIn.getAngle_minOut());
-	laserScanOut.getAngle_maxIn().connect(laserScanIn.getAngle_maxOut());
+	laserScanOut.getAngle_minInput().connect(laserScanIn.getAngle_minOutput());
+	laserScanOut.getAngle_maxInput().connect(laserScanIn.getAngle_maxOutput());
+// 	laserScanOut.getIntensitiessInput().connect(laserScanIn.getIntensitiesOutput());
+	laserScanOut.getIntensitiessInput().connect(laserScanIn.getRangesOutput());
 	printDouble0.getIn().connect(analogIn0.getOut());
 	printBool0.getIn().connect(digitalIn0.getOut());
 	analogOut0.getIn().connect(analogIn0.getOut());
