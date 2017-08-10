@@ -43,11 +43,12 @@ public:
 			msg.range_min		= static_cast<float>( range_minInput.getSignal().getValue() );
 		if (range_maxInput.isConnected() )
 			msg.range_max		= static_cast<float>( range_maxInput.getSignal().getValue() );
-		// vectors
-		sleep(1);
+		// C-4 Check if EEROS input is connected
 		if (rangesInput.isConnected() ) {
+			// C-5 Get the vector from the EEROS input
 			rangesValue = rangesInput.getSignal().getValue();
 			auto rangesTmpDouble = rangesValue.getColVector(0);
+			// C-6 Cast the vector and assign it to the appropriate ROS data field
 			std::vector<float> rangesTmpFloat( rangesTmpDouble.begin(), rangesTmpDouble.end() );	// cast to float vector
 			msg.ranges			= rangesTmpFloat;
 		}

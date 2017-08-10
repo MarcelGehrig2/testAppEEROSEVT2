@@ -73,7 +73,7 @@ public:
 
 protected:
 	//TODO Header
-	// B-1 Create EEROS outputs.
+	// B-1 Create EEROS outputs
 	Output<double>		angle_minOutput;
 	Output<double>		angle_maxOutput;
 	Output<double>		angle_incrementOutput;
