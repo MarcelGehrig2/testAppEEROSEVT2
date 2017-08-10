@@ -9,14 +9,14 @@
 
 using namespace eeros::control;
 
-// A-2 Define the type of the ROS message
-typedef sensor_msgs::LaserScan::Type	TRosMsg;
 
 
 // C-1 Create the template definition. Each EEROS matrix input needs its own type
 template < typename TRangesInput, typename TIntensitiesInput >
-// A-3 Name your block and create the constructor
-class RosBlockPublisher_SensorMsgs_LaserScan : public RosBlockPublisher< TRosMsg > {
+// A-3 Name your block and create the constructor. Copy the type definition
+class RosBlockPublisher_SensorMsgs_LaserScan : public RosBlockPublisher< sensor_msgs::LaserScan::Type > {
+	// A-2 Define the type of the ROS message
+	typedef sensor_msgs::LaserScan::Type	TRosMsg;
 public:
 	RosBlockPublisher_SensorMsgs_LaserScan(ros::NodeHandle& rosNodeHandler,
 										   const std::string& topic,
