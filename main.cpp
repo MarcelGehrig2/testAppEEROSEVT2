@@ -27,7 +27,7 @@ void signalHandler(int signum) {
 }
 
 int main(int argc, char **argv) {
-	double dt = 0.2;
+	double dt = 0.1;
 	
 	// Create and initialize logger
 	// ////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,10 @@ int main(int argc, char **argv) {
 	ros::init(dummy_argc, dummy_args, "EEROSNode");
 	log.trace() << "ROS node initialized.";
 	ros::NodeHandle rosNodeHandler;
+	
+//	rosNodeHandler.setParam("/use_sim_time", true);		// sumulation time (i.e. with gazebo)
+//	rosNodeHandle ros::NodeHandle;
+	
 		
 	// Control System
 	// ////////////////////////////////////////////////////////////////////////
