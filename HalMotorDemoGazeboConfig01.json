@@ -32,8 +32,23 @@
 					 ],
 				"unit": "V",
 				"additionalArguments": "topic=/rosNodeTalker/TestTopic1; msgType=std_msgs::Float64"
+			},
+			"channel1": {
+				"signalId": "motorPositionIn0",
+				"scale": [ { "id" : "dac",
+								"scale":	1,
+								"offset":	0.0	}
+					 ],
+				"range": [ { "id" : "dac",
+							"minIn":	-9e99,  "maxIn": 	9e99,
+							"minOut":	-9e99,	"maxOut": 	9e99 }
+					 ],
+				"unit": "V",
+				"additionalArguments": "topic=/motor_sim/joint_states; msgType=sensor_msgs::JointState; dataField=position0"
 			}
 		}
 	}
 }
+
+
 
