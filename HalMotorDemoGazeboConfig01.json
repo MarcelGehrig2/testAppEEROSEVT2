@@ -12,7 +12,7 @@
 					 ],
 				"range": [ { "id" : "dac",
 							"minIn":	-9e99,  	"maxIn": 	9e99,
-							"minOut":	-9e99,	"maxOut": 	9e99 }
+							"minOut":	-10,	"maxOut": 	10 }
 					 ],
 				"unit": "I",
 				"additionalArguments": "topic=/motor_sim/effort; msgType=sensor_msgs::JointState; dataField=effort0"
@@ -44,7 +44,7 @@
 							"minOut":	-9e99,	"maxOut": 	9e99 }
 					 ],
 				"unit": "V",
-				"additionalArguments": "topic=/motor_sim/joint_states; msgType=sensor_msgs::JointState; dataField=position0"
+				"additionalArguments": "topic=/motor_sim/joint_states; msgType=sensor_msgs::JointState; dataField=position0; callOne=false"
 			}
 		}
 	}

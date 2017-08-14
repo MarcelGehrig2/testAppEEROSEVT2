@@ -18,6 +18,15 @@
 #include "control/controlSystem/MyControlSystem.hpp"
 #include "control/safetySystem/MySafetyProperties.hpp"
 
+
+
+
+
+#include <std_msgs/Float64.h>
+
+
+
+
 using namespace eeros;
 using namespace eeros::logger;
 
@@ -26,8 +35,12 @@ void signalHandler(int signum) {
 	Executor::stop();
 }
 
+void callback(const std_msgs::Float64::Type){
+	std::cout << "callback" << std::endl;
+};
+
 int main(int argc, char **argv) {
-	double dt = 0.1;
+	double dt = 0.001;
 	
 	// Create and initialize logger
 	// ////////////////////////////////////////////////////////////////////////
@@ -37,7 +50,7 @@ int main(int argc, char **argv) {
 	w.show();
  
 	log.info() << "EEROS started";
-
+	
 	// HAL
 	// ////////////////////////////////////////////////////////////////////////
 	HAL& hal = HAL::instance();
@@ -48,8 +61,40 @@ int main(int argc, char **argv) {
 	char* dummy_args[] = {NULL};
 	int dummy_argc = sizeof(dummy_args)/sizeof(dummy_args[0]) - 1;
 	ros::init(dummy_argc, dummy_args, "EEROSNode");
-	log.trace() << "ROS node initialized.";
 	ros::NodeHandle rosNodeHandler;
+	log.trace() << "ROS node initialized.";
+	
+// 	 void rosCallbackFct(const std_msgs::Float64::Type& msg);
+// 	ros::Subscriber subscriber = rosNodeHandler.subscribe("rosNodeTalker/TestTopic1", 
+// 	ros::Subscriber subscriber = rosNodeHandler.subscribe("rosNodeTalker/TestTopic1",1,)
+	ros::NodeHandle syncNodeHandler;
+	ros::CallbackQueue syncCallbackQueue;
+	syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
+// 	void dummyLambda = [](std_msgs::Float64::Type){};
+// 	void callback(const std_msgs::Float64::Type){};
+// 	auto func = [] (std_msgs::Float64::Type) { std::cout << "Hello world"; };
+	auto subscriberSync = syncNodeHandler.subscribe("rosNodeTalker/TestTopic1", 1, &callback);
+	
+// // 	syncCallbackQueue.callAvailable(ros::WallDuration());
+// // 	std::cout << "syncCallbackQueue.callOne(): " << std::endl;
+// 	while(true) {
+// 		auto value = syncCallbackQueue.isEmpty();
+// 		std::cout << "syncCallbackQueue.isEmpty(): " << value << std::endl;
+// // 		std::cout << "number of publisher: " << subscriberSync.getNumPublishers() << std::endl;
+// // 		syncCallbackQueue.callAvailable(ros::WallDuration());
+// // 		syncCallbackQueue.callAvailable();
+// 		usleep(100000);
+// 	}
+	
+	// 0.0 / 0		-nanVVv
+	// 0 / 0.0		-nan
+	// 0.0 / 0.0	-nan
+	// 0 / 0		Floating point exception
+	// -0 / 0.0		-nan
+	// -0.0 / 0		-nan
+	// -0.0 / 0.0	-nan	
+	// -0 / 0		Floating point exception
+	
 	
 // 	rosNodeHandler.setParam("/use_sim_time", true);		// sumulation time (i.e. with gazebo)
 //	rosNodeHandle ros::NodeHandle;
@@ -70,6 +115,8 @@ int main(int argc, char **argv) {
 	signal(SIGINT, signalHandler);	
 	auto &executor = Executor::instance();
 	executor.setMainTask(safetySystem);
+	executor.syncWithGazebo(&syncCallbackQueue);
+// 	executor.s
 // 	executor.useRosTimeForExecutor();
 	
 	
