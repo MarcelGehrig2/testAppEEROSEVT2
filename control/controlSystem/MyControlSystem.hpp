@@ -2,11 +2,12 @@
 #define CH_NTB_TESTAPP_CONTROLSYSTEM_HPP_
 
 #include <eeros/control/TimeDomain.hpp>
-#include <eeros/control/PeripheralOutput.hpp>
-#include <eeros/control/PeripheralInput.hpp>
+// #include <eeros/control/PeripheralOutput.hpp>
+// // #include <eeros/control/PeripheralInput.hpp>
 #include <eeros/hal/HAL.hpp>
 
 #include "Print.hpp"
+#include <eeros/control/ROS/RosBlockPublisherDouble.hpp>
 #include "RosBlockSubscriber_SensorMsgs_LaserScan.hpp"
 #include "RosBlockPublisher_SensorMsgs_LaserScan.hpp"
 
@@ -22,18 +23,21 @@ public:
 	Print<double> printDouble0;
 	Print<bool> printBool0;
 	
+	
 	typedef eeros::math::Matrix< 5, 1, double >		TRangesOutput;
 	typedef eeros::math::Matrix< 5, 1, double >		TIntensitiesOutput;
 	RosBlockSubscriber_SensorMsgs_LaserScan<TRangesOutput, TIntensitiesOutput>	laserScanIn;
 	typedef eeros::math::Matrix< 5, 1, double >		TRangesInput;
 	typedef eeros::math::Matrix< 5, 1, double >		TIntensitiesInput;
 	RosBlockPublisher_SensorMsgs_LaserScan<TRangesInput, TIntensitiesInput>		laserScanOut;
+	
+	RosBlockPublisherDouble rosBlockPublisherDouble0;
 
 	//HAL
-	PeripheralInput<double>		analogIn0;
-	PeripheralInput<bool>		digitalIn0;
-	PeripheralOutput<double>	analogOut0;
-	PeripheralOutput<bool>		digitalOut0;
+// 	PeripheralInput<double>		analogIn0;
+// 	PeripheralInput<bool>		digitalIn0;
+// 	PeripheralOutput<double>	analogOut0;
+// 	PeripheralOutput<bool>		digitalOut0;
 			
 //	protected:
 	double dt;
