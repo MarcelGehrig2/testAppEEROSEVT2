@@ -1,7 +1,7 @@
 #ifndef ROSBLOCKSUBSCRIBER_SENSORMSGS_LASERSCAN_HPP
 #define ROSBLOCKSUBSCRIBER_SENSORMSGS_LASERSCAN_HPP
 
-#include <eeros/control/RosBlockSubscriber.hpp>
+#include <eeros/control/ROS/RosBlockSubscriber.hpp>
 #include <eeros/core/System.hpp>
 
 // A-1 Include the header file of the ROS message

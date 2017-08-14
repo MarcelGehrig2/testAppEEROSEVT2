@@ -1,7 +1,7 @@
 #ifndef ROSBLOCKPUBLISHER_SENSORMSGS_LASERSCAN_HPP
 #define ROSBLOCKPUBLISHER_SENSORMSGS_LASERSCAN_HPP
 
-#include <eeros/control/RosBlockPublisher.hpp>
+#include <eeros/control/ROS/RosBlockPublisher.hpp>
 #include <eeros/math/Matrix.hpp>
 
 // A-1 Include the header file of the ROS message

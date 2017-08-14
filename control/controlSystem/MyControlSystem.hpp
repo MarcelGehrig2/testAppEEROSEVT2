@@ -6,7 +6,7 @@
 #include <eeros/control/PeripheralInput.hpp>
 #include <eeros/hal/HAL.hpp>
 
-#include <eeros/control/RosBlockPublisherDouble.hpp>
+#include <eeros/control/ROS/RosBlockPublisherDouble.hpp>
 #include <eeros/control/Sum.hpp>
 #include <eeros/control/Constant.hpp>
 #include <eeros/control/Gain.hpp>
