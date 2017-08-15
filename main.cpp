@@ -1,5 +1,7 @@
 #include <iostream>
 #include <signal.h>
+// #include <list>
+#include <vector>
 
 #include <ros/console.h>
 #include <ros/ros.h>
@@ -19,7 +21,7 @@
 #include "control/safetySystem/MySafetyProperties.hpp"
 
 
-
+#include <eeros/core/WaiteForRosTopic.hpp>
 
 
 #include <std_msgs/Float64.h>
@@ -29,6 +31,9 @@
 
 using namespace eeros;
 using namespace eeros::logger;
+
+eeros::core::WaitForRosTopic<std_msgs::Float64::Type> waiter0("rosNodeTalker/TestTopic1");
+
 
 
 void signalHandler(int signum) {
@@ -40,6 +45,15 @@ void callback(const std_msgs::Float64::Type){
 };
 
 int main(int argc, char **argv) {
+	
+	
+	
+	std::vector<eeros::core::WaitForRosTopicInterface*> waiters = {};
+	// waiters.
+	waiters.push_back(&waiter0);
+
+
+
 	double dt = 0.001;
 	
 	// Create and initialize logger
