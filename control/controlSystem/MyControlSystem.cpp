@@ -47,7 +47,8 @@ timedomain("Main time domain", dt, true)
 	motorPositionIn0Fake.setValue(0);
 	diffVel0.negateInput(1);
 	pwGain0.setGain(16.5);
-	iwGain0.setGain(32.5);
+// 	iwGain0.setGain(32.5);
+	iwGain0.setGain(32.5/2);	// because i is calculatet "output = valprev + valin * dt;"
 	iwIntegrator0.setInitCondition(0);
 	iwIntegrator0.enable();
 	kmGain0.setGain(0.0163);
@@ -64,24 +65,24 @@ timedomain("Main time domain", dt, true)
 	
 	  // controller
 	pwGain0.getIn().connect(diffVel0.getOut());
-	iwGain0.getIn().connect(diffVel0.getOut());
-	iwIntegrator0.getIn().connect(iwGain0.getOut());
+	iwIntegrator0.getIn().connect(diffVel0.getOut());
+	iwGain0.getIn().connect(iwIntegrator0.getOut());
 	iwSum0.getIn(0).connect(pwGain0.getOut());
-	iwSum0.getIn(1).connect(iwIntegrator0.getOut());
+	iwSum0.getIn(1).connect(iwGain0.getOut());
 	kmGain0.getIn().connect(iwSum0.getOut());
 	
 	  // output
 	motorEffortOut0.getIn().connect(kmGain0.getOut());
 	
 	  // debugging std::cout
-	printDouble0.getIn().connect(iwIntegrator0.getOut());
+	printDouble0.getIn().connect(motorPositionIn0.getOut());
 	printDouble1.getIn().connect(iwSum0.getOut());
 	printDouble2.getIn().connect(kmGain0.getOut());
 	
 	  // debugging ros topic
 	motorPositionIn0Publisher.getIn().connect(motorPositionIn0.getOut());
 // // 	motorPositionIn0Publisher.getIn().connect(motorPositionIn0Fake.getOut());
-// 	analogIn0Publisher.getIn().connect(filterLowPass0.getOut());
+	analogIn0Publisher.getIn().connect(analogIn0.getOut());
 	iwGain0Publisher.getIn().connect(iwGain0.getOut());
 	posToVel0Publisher.getIn().connect(posToVel0.getOut());
 	iwIntegrator0Publisher.getIn().connect(iwIntegrator0.getOut());
@@ -101,9 +102,9 @@ timedomain("Main time domain", dt, true)
 	
 	  // controller
 	timedomain.addBlock(&diffVel0);
-	timedomain.addBlock(&pwGain0);
-	timedomain.addBlock(&iwGain0);
 	timedomain.addBlock(&iwIntegrator0);
+	timedomain.addBlock(&iwGain0);
+	timedomain.addBlock(&pwGain0);
 	timedomain.addBlock(&iwSum0);
 	timedomain.addBlock(&kmGain0);
 	

@@ -3,7 +3,8 @@
 
 #include <ros/console.h>
 #include <ros/ros.h>
-#include "std_msgs/String.h"
+#include <std_msgs/String.h>
+#include <sensor_msgs/JointState.h>
 #include <sstream>
 
 #include <eeros/hal/HAL.hpp>
@@ -35,7 +36,8 @@ void signalHandler(int signum) {
 	Executor::stop();
 }
 
-void callback(const std_msgs::Float64::Type){
+// void callback(const std_msgs::Float64::Type){
+void callback(const sensor_msgs::JointState::Type){
 	std::cout << "callback" << std::endl;
 };
 
@@ -60,7 +62,8 @@ int main(int argc, char **argv) {
 	// ////////////////////////////////////////////////////////////////////////
 	char* dummy_args[] = {NULL};
 	int dummy_argc = sizeof(dummy_args)/sizeof(dummy_args[0]) - 1;
-	ros::init(dummy_argc, dummy_args, "EEROSNode");
+// 	ros::init(dummy_argc, dummy_args, "EEROSNode");
+	ros::init(dummy_argc, dummy_args, "motor_sim");
 	ros::NodeHandle rosNodeHandler;
 	log.trace() << "ROS node initialized.";
 	
@@ -73,7 +76,8 @@ int main(int argc, char **argv) {
 // 	void dummyLambda = [](std_msgs::Float64::Type){};
 // 	void callback(const std_msgs::Float64::Type){};
 // 	auto func = [] (std_msgs::Float64::Type) { std::cout << "Hello world"; };
-	auto subscriberSync = syncNodeHandler.subscribe("rosNodeTalker/TestTopic1", 1, &callback);
+// 	auto subscriberSync = syncNodeHandler.subscribe("rosNodeTalker/TestTopic1", 1, &callback);
+	auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
 	
 // // 	syncCallbackQueue.callAvailable(ros::WallDuration());
 // // 	std::cout << "syncCallbackQueue.callOne(): " << std::endl;
