@@ -38,7 +38,6 @@ public:
 	// HAL 
 	PeripheralInput<double>		analogIn0;
 	PeripheralInput<double>		motorPositionIn0;
-// // 	PeripheralInput<bool>		digitalIn0;
 	PeripheralOutput<double>	motorEffortOut0;
 // // 	PeripheralOutput<bool>		digitalOut0;
 	
@@ -46,24 +45,16 @@ public:
 	Print<double> printDouble0;
 	Print<double> printDouble1;
 	Print<double> printDouble2;
-// 	Print<bool> printBool0;
 	
 	// Controler blocks
-// 	MyStep<double> stepIn0;
-// 	MyStep<double> asd;
 	Constant<double>		motorPositionIn0Fake;
 	D<double> 				posToVel0;
-// 	FilterLowPass<double>	filterLowPass0;
 	Sum<2, double>			diffVel0;
 	Gain<double>			pwGain0;
 	Gain<double>			iwGain0;
 	I<double>				iwIntegrator0;
 	Sum<2, double>			iwSum0;
 	Gain<double>			kmGain0;
-	
-// 	Sum<1, double>		sum1;
-// 	Constant<double>	const1;
-	
 	
 	//Publisher for debuging
 	RosBlockPublisherDouble		motorPositionIn0Publisher;
@@ -72,7 +63,8 @@ public:
 	RosBlockPublisherDouble		posToVel0Publisher;
 	RosBlockPublisherDouble		iwIntegrator0Publisher;
 	RosBlockPublisherDouble		iwSum0Publisher;
-			
+	RosBlockPublisherDouble		kmGain0Publisher;
+	
 //	protected:
 	double dt;
 	ros::NodeHandle& rosNodeHandler;

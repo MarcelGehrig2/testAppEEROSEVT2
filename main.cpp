@@ -127,11 +127,11 @@ int main(int argc, char **argv) {
 	// Lambda function for logging signals in CS
 	// /////////////////////////////////////////
 	eeros::task::Lambda l1 ([&] () { });
-	eeros::task::Periodic perLog("periodic log", 0.5, l1);
+	eeros::task::Periodic perLog("periodic log", 0.001, l1);
 	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
 		log.info() << "motor Position in: " << controlSystem.motorPositionIn0.getOut().getSignal();
+		log.info() << "posToVelIn:        ; " << controlSystem.posToVel0.getIn().getSignal();
 		log.info() << "posToVel0        : " << controlSystem.posToVel0.getOut().getSignal();
-		log.info() << "analogIn:        ; " << controlSystem.analogIn0.getOut().getSignal();
 //		log.info() << "ROSTopic 2 Buttons: " << controlSystem.rosBlockB.getButtonsOut().getSignal();
 	});
 	executor.add(perLog);
