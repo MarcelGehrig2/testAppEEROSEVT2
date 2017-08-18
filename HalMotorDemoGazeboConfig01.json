@@ -15,7 +15,7 @@
 							"minOut":	-10,	"maxOut": 	10 }
 					 ],
 				"unit": "I",
-				"additionalArguments": "topic=/motor_sim/effort; msgType=sensor_msgs::JointState; dataField=effort0"
+				"additionalArguments": "topic=/motor_sim/effort; msgType=sensor_msgs::JointState; dataField=effort0; useSignalInTimestamp=false"
 			}
 		}
 		"subdevice1": {
