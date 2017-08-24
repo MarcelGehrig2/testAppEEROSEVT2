@@ -9,6 +9,7 @@
 
 #include <eeros/hal/HAL.hpp>
 #include <eeros/core/Executor.hpp>
+#include <eeros/core/RosTopicSynchronizer.hpp>
 #include <eeros/task/Lambda.hpp>
 #include <eeros/safety/SafetySystem.hpp>
 #include <eeros/logger/Logger.hpp>
@@ -41,6 +42,25 @@ void callback(const sensor_msgs::JointState::Type){
 	std::cout << "callback" << std::endl;
 };
 
+template <typename msgType>
+class callbackFunctor {
+public:
+  void operator()(const msgType& message) { return; };
+// 	callbackFunctor<>
+	
+};
+
+class Foo
+{
+public:
+  void operator()(const std_msgs::StringConstPtr& message)
+  {
+  }
+};
+
+template<typename msgType>
+void callbackDummy(const msgType type) {}
+
 int main(int argc, char **argv) {
 	double dt = 0.001;
 	
@@ -67,41 +87,20 @@ int main(int argc, char **argv) {
 	ros::NodeHandle rosNodeHandler;
 	log.trace() << "ROS node initialized.";
 	
-// 	 void rosCallbackFct(const std_msgs::Float64::Type& msg);
-// 	ros::Subscriber subscriber = rosNodeHandler.subscribe("rosNodeTalker/TestTopic1", 
-// 	ros::Subscriber subscriber = rosNodeHandler.subscribe("rosNodeTalker/TestTopic1",1,)
 	ros::NodeHandle syncNodeHandler;
 	ros::CallbackQueue syncCallbackQueue;
 	syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
-// 	void dummyLambda = [](std_msgs::Float64::Type){};
-// 	void callback(const std_msgs::Float64::Type){};
-// 	auto func = [] (std_msgs::Float64::Type) { std::cout << "Hello world"; };
-// 	auto subscriberSync = syncNodeHandler.subscribe("rosNodeTalker/TestTopic1", 1, &callback);
 	auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
 	
-// // 	syncCallbackQueue.callAvailable(ros::WallDuration());
-// // 	std::cout << "syncCallbackQueue.callOne(): " << std::endl;
-// 	while(true) {
-// 		auto value = syncCallbackQueue.isEmpty();
-// 		std::cout << "syncCallbackQueue.isEmpty(): " << value << std::endl;
-// // 		std::cout << "number of publisher: " << subscriberSync.getNumPublishers() << std::endl;
-// // 		syncCallbackQueue.callAvailable(ros::WallDuration());
-// // 		syncCallbackQueue.callAvailable();
-// 		usleep(100000);
-// 	}
 	
-	// 0.0 / 0		-nanVVv
-	// 0 / 0.0		-nan
-	// 0.0 / 0.0	-nan
-	// 0 / 0		Floating point exception
-	// -0 / 0.0		-nan
-	// -0.0 / 0		-nan
-	// -0.0 / 0.0	-nan	
-	// -0 / 0		Floating point exception
+// // 	callbackDummy<const std_msgs::Float64::Type>() dummy0;
+// // 	callbackFunctor<std_msgs::Float64> dummy1;
+// 	callbackFunctor<std_msgs::Float64ConstPtr> dummy1;
+// 	auto subscriberSync = syncNodeHandler.subscribe<std_msgs::Float64>("rosNodeTalker/TestTopic1", 1, dummy1());
+// 	
 	
-	
-// 	rosNodeHandler.setParam("/use_sim_time", true);		// sumulation time (i.e. with gazebo)
-//	rosNodeHandle ros::NodeHandle;
+// 	auto rosTopicSynchronizer = RosTopicSynchronizer();
+// 	RosTopicSynchronizer rosTopicSynchronizer;
 	
 		
 	// Control System
@@ -119,9 +118,9 @@ int main(int argc, char **argv) {
 	signal(SIGINT, signalHandler);	
 	auto &executor = Executor::instance();
 	executor.setMainTask(safetySystem);
-	executor.syncWithGazebo(&syncCallbackQueue);
+	executor.syncWithRosTopic(&syncCallbackQueue);
 // 	executor.s
-// 	executor.useRosTimeForExecutor();
+// 	executor.syncWithRosTime();
 	
 	
 	// Lambda function for logging signals in CS
