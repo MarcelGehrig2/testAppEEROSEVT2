@@ -31,7 +31,7 @@
 							"minOut":	-9e99,	"maxOut": 	9e99 }
 					 ],
 				"unit": "V",
-				"additionalArguments": "topic=/rosNodeTalker/TestTopic1; msgType=std_msgs::Float64; useEerosSystemTime=false"
+				"additionalArguments": "topic=/rosNodeTalker/TestTopic1; msgType=std_msgs::Float64; useEerosSystemTime=true"
 			},
 			"channel1": {
 				"signalId": "motorPositionIn0",
@@ -44,7 +44,7 @@
 							"minOut":	-9e99,	"maxOut": 	9e99 }
 					 ],
 				"unit": "V",
-				"additionalArguments": "topic=/motor_sim/joint_states; msgType=sensor_msgs::JointState; dataField=position0; callOne=false; useEerosSystemTime=true"
+				"additionalArguments": "topic=/motor_sim/joint_states; msgType=sensor_msgs::JointState; dataField=position0; callOne=false; useEerosSystemTime=false"
 			}
 		}
 	}

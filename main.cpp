@@ -119,6 +119,8 @@ int main(int argc, char **argv) {
 	auto &executor = Executor::instance();
 	executor.setMainTask(safetySystem);
 	executor.syncWithRosTopic(&syncCallbackQueue);
+	
+	eeros::System::useRosTime();
 // 	executor.s
 // 	executor.syncWithRosTime();
 	
