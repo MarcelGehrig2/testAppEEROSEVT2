@@ -1,0 +1,73 @@
+{
+	"device0": {
+		"library": "libroseeros.so",
+		"devHandle": "rosNodeHAL",
+		"subdevice0": {
+			"type": "AnalogIn",
+			"channel0": {
+				"signalId": "simpleRosIn0",
+				"scale": [ { "id" : "dac",
+								"scale":	1,
+								"offset":	0.0	}
+					 ],
+				"range": [ { "id" : "dac",
+							"minIn":	-9e99,  "maxIn": 	9e99,
+							"minOut":	-9e99,	"maxOut": 	9e99 }
+					 ],
+				"unit": "V",
+				"additionalArguments": "topic=/rosNodeTalker/TestTopic1; msgType=std_msgs::Float64; useEerosSystemTime=true"
+			}
+		}
+	},
+	"device1": {
+		"library": "libcomedieeros.so",
+		"devHandle": "/dev/comedi0",
+		"subdevice0": {
+			"type": "Fqd",
+			"channel8": {
+				"signalId": "motorPositionIn0",
+				"encChannelA": 8,
+				"encChannelB": 10,
+				"encChannelZ": 9,
+				"scale": [ { "id" : "enc1",
+							"minIn": 	0, "maxIn": 6.28318530718,
+							"minOut":	0, "maxOut": 2000 }
+					 ],
+				"range": [ { "id" : "enc1",
+								"noLimit": 	true }
+					 ],
+				"unit": "rad"
+			}
+		},
+		"subdevice1": {
+			"type": "AnalogOut",
+			"channel0": {
+				"signalId": "motorEffortOut0",
+				"scale": [ { "id" : "dac",
+								"minIn": 	0, 	"maxIn": 	65535,
+								"minOut": 	-10.0, "maxOut": 	10.0 },
+					   { "id" : "test",
+								"minIn": 	-5.0, 	"maxIn": 	5.0,
+								"minOut":	-10.0, 	"maxOut": 	10.0 },
+					   { "id" : "direct",
+								"scale":	0.5,
+								"offset": 	0.0 }
+					 ],
+				"range": [ { "id" : "dac",
+							"minIn": 	0, 	"maxIn": 	65535,
+							"minOut": 	-10.0, 	"maxOut": 	10.0 },
+					   { "id" : "test",
+							"minIn": 	-5.0, 	"maxIn": 	5.0,
+							"minOut": 	-10.0, 	"maxOut": 	10.0 },
+					   { "id" : "direct",
+							"minIn":	-10.0,  "maxIn": 	10.0,
+							"minOut":	-10.0,	"maxOut": 	10.0 }
+					 ],
+				"unit": "V"
+			}
+		}
+        }
+}
+
+
+

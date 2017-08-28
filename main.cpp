@@ -34,6 +34,7 @@ using namespace eeros::logger;
 
 
 void signalHandler(int signum) {
+	
 	Executor::stop();
 }
 
@@ -87,20 +88,10 @@ int main(int argc, char **argv) {
 	ros::NodeHandle rosNodeHandler;
 	log.trace() << "ROS node initialized.";
 	
-	ros::NodeHandle syncNodeHandler;
-	ros::CallbackQueue syncCallbackQueue;
-	syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
-	auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
-	
-	
-// // 	callbackDummy<const std_msgs::Float64::Type>() dummy0;
-// // 	callbackFunctor<std_msgs::Float64> dummy1;
-// 	callbackFunctor<std_msgs::Float64ConstPtr> dummy1;
-// 	auto subscriberSync = syncNodeHandler.subscribe<std_msgs::Float64>("rosNodeTalker/TestTopic1", 1, dummy1());
-// 	
-	
-// 	auto rosTopicSynchronizer = RosTopicSynchronizer();
-// 	RosTopicSynchronizer rosTopicSynchronizer;
+// 	ros::NodeHandle syncNodeHandler;
+// 	ros::CallbackQueue syncCallbackQueue;
+// 	syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
+// 	auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
 	
 		
 	// Control System
@@ -118,24 +109,23 @@ int main(int argc, char **argv) {
 	signal(SIGINT, signalHandler);	
 	auto &executor = Executor::instance();
 	executor.setMainTask(safetySystem);
-	executor.syncWithRosTopic(&syncCallbackQueue);
 	
-	eeros::System::useRosTime();
-// 	executor.s
-// 	executor.syncWithRosTime();
+	
+// 	executor.syncWithRosTopic(&syncCallbackQueue);
+// 	eeros::System::useRosTime();
 	
 	
 	// Lambda function for logging signals in CS
 	// /////////////////////////////////////////
-	eeros::task::Lambda l1 ([&] () { });
-	eeros::task::Periodic perLog("periodic log", 0.001, l1);
-	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
-		log.info() << "motor Position in: " << controlSystem.motorPositionIn0.getOut().getSignal();
-		log.info() << "posToVelIn:        ; " << controlSystem.posToVel0.getIn().getSignal();
-		log.info() << "posToVel0        : " << controlSystem.posToVel0.getOut().getSignal();
+//	eeros::task::Lambda l1 ([&] () { });
+//	eeros::task::Periodic perLog("periodic log", 0.001, l1);
+//	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
+//		log.info() << "motor Position in: " << controlSystem.motorPositionIn0.getOut().getSignal();
+//		log.info() << "posToVelIn:        ; " << controlSystem.posToVel0.getIn().getSignal();
+//		log.info() << "posToVel0        : " << controlSystem.posToVel0.getOut().getSignal();
 //		log.info() << "ROSTopic 2 Buttons: " << controlSystem.rosBlockB.getButtonsOut().getSignal();
-	});
-	executor.add(perLog);
+//	});
+//	executor.add(perLog);
 	
 	
 //// 	// Sequencer

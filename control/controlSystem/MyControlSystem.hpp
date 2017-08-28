@@ -12,9 +12,11 @@
 #include <eeros/control/Gain.hpp>
 #include <eeros/control/I.hpp>
 #include <eeros/control/D.hpp>
+// #include <eeros/control/Filter.hpp>
 
 #include "Print.hpp"
 #include "MyStep.hpp"
+#include "MyFilter.hpp"
 // #include "FilterLowPass.hpp"
 #include "RosBlockSubscriber_SensorMsgs_LaserScan.hpp"
 #include "RosBlockPublisher_SensorMsgs_LaserScan.hpp"
@@ -48,11 +50,13 @@ public:
 	
 	// Controler blocks
 	Constant<double>		motorPositionIn0Fake;
-	D<double> 				posToVel0;
+	D<double> 			posToVel0;
+	MyFilter			myFilter0;
+// 	Filter				myFilter0;
 	Sum<2, double>			diffVel0;
 	Gain<double>			pwGain0;
 	Gain<double>			iwGain0;
-	I<double>				iwIntegrator0;
+	I<double>			iwIntegrator0;
 	Sum<2, double>			iwSum0;
 	Gain<double>			kmGain0;
 	

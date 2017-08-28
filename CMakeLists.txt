@@ -6,8 +6,8 @@ find_package(EEROS REQUIRED)
 
 ## ucl++ workaround
 ## ////////////////////////////////////////////////////////////////////////
-include_directories("/home/mgehrig2/VT2/Software/eeros-framework/buildx86/libucl-src/include")
-link_directories("/home/mgehrig2/VT2/Software/eeros-framework/buildx86/libucl-build")
+include_directories("/home/eeros-inf034/VT2Marcel/VT2/Software/eeros-framework/buildx86/libucl-src/include")
+link_directories("/home/eeros-inf034/VT2Marcel/VT2/Software/eeros-framework/buildx86/libucl-build")
 
 
 # ## ROS
@@ -48,6 +48,7 @@ add_executable(testappEEROSVT2
 	main.cpp
 	
 	control/controlSystem/MyControlSystem.cpp
+	control/controlSystem/MyFilter.cpp
 
 	
 )
