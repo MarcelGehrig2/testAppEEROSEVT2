@@ -37,6 +37,7 @@ iSetPublisher(rosNodeHandler, "/debug/iSet", 100),
 debugPublisher0(rosNodeHandler, "/debug/debug0", 100),
 debugPublisher1(rosNodeHandler, "/debug/debug1", 100),
 debugPublisher2(rosNodeHandler, "/debug/debug2", 100),
+jointStatePublisher(rosNodeHandler, "/motor/joint_states", 100,"motor_axis"),
 
 timedomain("Main time domain", dt, true)
 
@@ -78,10 +79,10 @@ timedomain("Main time domain", dt, true)
 	veloctiyPublisher.getIn().connect(posToVel.getOut());
 	velocityFilteredPublisher.getIn().connect(lowPassFilter.getOut());
 	iSetPublisher.getIn().connect(iSaturation.getOut());
-// 	debugPublisher0.getIn().connect(posToVel.getOut());
+	debugPublisher0.getIn().connect(analogIn.getOut());
 // 	debugPublisher1.getIn().connect(lowPassFilter.getOut());
 // 	debugPublisher2.getIn().connect(diffVel.getOut());
-	
+	jointStatePublisher.getPositionsInput().connect(discreterEncoder.getOut());
 
 	// Run blocks
 	  // inputs
@@ -112,9 +113,10 @@ timedomain("Main time domain", dt, true)
 	timedomain.addBlock(veloctiyPublisher);
 	timedomain.addBlock(velocityFilteredPublisher);
 	timedomain.addBlock(iSetPublisher);
-// 	timedomain.addBlock(debugPublisher0);
+	timedomain.addBlock(debugPublisher0);
 // 	timedomain.addBlock(debugPublisher1);
 // 	timedomain.addBlock(debugPublisher2);
+	timedomain.addBlock(jointStatePublisher);
 	
 	  // output
 	timedomain.addBlock(effortOut);

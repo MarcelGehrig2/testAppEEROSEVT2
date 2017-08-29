@@ -20,6 +20,7 @@
 #include "Discret.hpp"
 #include "RosBlockSubscriber_SensorMsgs_LaserScan.hpp"
 #include "RosBlockPublisher_SensorMsgs_LaserScan.hpp"
+#include "RosBlockPublisher_SensorMsgs_JointState.hpp"
 
 using namespace eeros::control;
 
@@ -68,6 +69,7 @@ public:
 	RosBlockPublisherDouble		debugPublisher1;
 	RosBlockPublisherDouble		debugPublisher2;
 	RosBlockPublisherDouble		positionPublisher;
+	RosBlockPublisher_SensorMsgs_JointState		jointStatePublisher;
 	
 //	protected:
 	double dt;
