@@ -43,21 +43,6 @@ void callback(const sensor_msgs::JointState::Type){
 // 	std::cout << "callback" << std::endl;
 };
 
-template <typename msgType>
-class callbackFunctor {
-public:
-  void operator()(const msgType& message) { return; };
-// 	callbackFunctor<>
-	
-};
-
-class Foo
-{
-public:
-  void operator()(const std_msgs::StringConstPtr& message)
-  {
-  }
-};
 
 template<typename msgType>
 void callbackDummy(const msgType type) {}

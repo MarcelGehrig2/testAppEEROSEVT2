@@ -30,13 +30,13 @@ effortOut("motorEffortOut0"),
 
 
 //Publisher for debuging
-motorPositionInPublisher(rosNodeHandler, "/debug/motorPositionIn0P", 100),
-analogInPublisher(rosNodeHandler, "/debug/analogIn0", 100),
-iwGainPublisher(rosNodeHandler, "/debug/iwGain0", 100),
-posToVelPublisher(rosNodeHandler, "/debug/posToVel0", 100),
-iwIntegratorPublisher(rosNodeHandler, "/debug/iwIntegrator0", 100),
-iSumPublisher(rosNodeHandler, "/debug/iwSum0", 100),
-kmGainPublisher(rosNodeHandler, "/debug/kmGain0", 100),
+positionPublisher(rosNodeHandler, "/debug/position", 100),
+veloctiyPublisher(rosNodeHandler, "/debug/velocity", 100),
+velocityFilteredPublisher(rosNodeHandler, "/debug/velocityFiltered", 100),
+iSetPublisher(rosNodeHandler, "/debug/iSet", 100),
+debugPublisher0(rosNodeHandler, "/debug/debug0", 100),
+debugPublisher1(rosNodeHandler, "/debug/debug1", 100),
+debugPublisher2(rosNodeHandler, "/debug/debug2", 100),
 
 timedomain("Main time domain", dt, true)
 
@@ -50,7 +50,6 @@ timedomain("Main time domain", dt, true)
 	iwIntegrator.setInitCondition(0);
 	iwIntegrator.enable();
 	kmGain.setGain(0.0163);
-// 	kmGain.setGain(1);
 	
 	// Connect Blocks
 	discreterEncoder.getIn().connect(motorPositionIn.getOut());
@@ -70,19 +69,18 @@ timedomain("Main time domain", dt, true)
 	
 	  // output
 	effortOut.getIn().connect(kmGain.getOut());
-// 	effortOut.getIn().connect(kmGain.getOut());
 // 	effortOut.getIn().connect(motorPositionInFake.getOut());
 	
 	  // debugging std::cout
 	
 	  // debugging ros topic
-	motorPositionInPublisher.getIn().connect(discreterEncoder.getOut());
-	analogInPublisher.getIn().connect(analogIn.getOut());
-	iwGainPublisher.getIn().connect(iwGain.getOut());
-	posToVelPublisher.getIn().connect(posToVel.getOut());
-	iwIntegratorPublisher.getIn().connect(lowPassFilter.getOut());
-	iSumPublisher.getIn().connect(diffVel.getOut());
-	kmGainPublisher.getIn().connect(iSaturation.getOut());
+	positionPublisher.getIn().connect(discreterEncoder.getOut());
+	veloctiyPublisher.getIn().connect(posToVel.getOut());
+	velocityFilteredPublisher.getIn().connect(lowPassFilter.getOut());
+	iSetPublisher.getIn().connect(iSaturation.getOut());
+// 	debugPublisher0.getIn().connect(posToVel.getOut());
+// 	debugPublisher1.getIn().connect(lowPassFilter.getOut());
+// 	debugPublisher2.getIn().connect(diffVel.getOut());
 	
 
 	// Run blocks
@@ -110,13 +108,13 @@ timedomain("Main time domain", dt, true)
 // 	timedomain.addBlock(printDouble2);
 	
 	  // debugging ros tpic
-	timedomain.addBlock(motorPositionInPublisher);
-	timedomain.addBlock(analogInPublisher);
-	timedomain.addBlock(posToVelPublisher);
-	timedomain.addBlock(iwGainPublisher);
-	timedomain.addBlock(iwIntegratorPublisher);
-	timedomain.addBlock(iSumPublisher);
-	timedomain.addBlock(kmGainPublisher);
+	timedomain.addBlock(positionPublisher);
+	timedomain.addBlock(veloctiyPublisher);
+	timedomain.addBlock(velocityFilteredPublisher);
+	timedomain.addBlock(iSetPublisher);
+// 	timedomain.addBlock(debugPublisher0);
+// 	timedomain.addBlock(debugPublisher1);
+// 	timedomain.addBlock(debugPublisher2);
 	
 	  // output
 	timedomain.addBlock(effortOut);

@@ -61,13 +61,13 @@ public:
 	Gain<double>			kmGain;
 	
 	//Publisher for debuging
-	RosBlockPublisherDouble		motorPositionInPublisher;
-	RosBlockPublisherDouble		analogInPublisher;
-	RosBlockPublisherDouble		iwGainPublisher;
-	RosBlockPublisherDouble		posToVelPublisher;
-	RosBlockPublisherDouble		iwIntegratorPublisher;
-	RosBlockPublisherDouble		iSumPublisher;
-	RosBlockPublisherDouble		kmGainPublisher;
+	RosBlockPublisherDouble		veloctiyPublisher;
+	RosBlockPublisherDouble		velocityFilteredPublisher;
+	RosBlockPublisherDouble		iSetPublisher;
+	RosBlockPublisherDouble		debugPublisher0;
+	RosBlockPublisherDouble		debugPublisher1;
+	RosBlockPublisherDouble		debugPublisher2;
+	RosBlockPublisherDouble		positionPublisher;
 	
 //	protected:
 	double dt;
