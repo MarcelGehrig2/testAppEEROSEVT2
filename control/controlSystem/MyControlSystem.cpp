@@ -11,7 +11,8 @@ using namespace std;
 MyControlSystem::MyControlSystem(double dt, ros::NodeHandle& rosNodeHandler) :
 dt(dt),
 rosNodeHandler(rosNodeHandler),
-myFilter0(0.1),
+myFilter0(0.15),
+// myFilter0(1),
 
 printDouble0(1),
 printDouble1(1),
@@ -19,6 +20,8 @@ printDouble2(1),
 laserScanIn (rosNodeHandler, "/rosNodeTalker/TestTopic3", 100, false),
 laserScanOut(rosNodeHandler, "/CSNodeTalker/TestTopic23", 100),
 analogIn0("simpleRosIn0"),
+
+discreterEncoder0(0.003141593),
 
 // controller
 motorPositionIn0("motorPositionIn0"),
@@ -37,9 +40,10 @@ kmGain0Publisher(rosNodeHandler, "/debug/kmGain0", 100),
 timedomain("Main time domain", dt, true)
 
 {
-	motorPositionIn0Fake.setValue(-0.3);
+	motorPositionIn0Fake.setValue(0.0163);
 	diffVel0.negateInput(1);
 	pwGain0.setGain(16.5);
+// 	pwGain0.setGain(1.65);
 	iwGain0.setGain(32.5);
 	iwIntegrator0.setInitCondition(0);
 	iwIntegrator0.enable();
@@ -47,7 +51,9 @@ timedomain("Main time domain", dt, true)
 // 	kmGain0.setGain(1);
 	
 	// Connect Blocks
-	posToVel0.getIn().connect(motorPositionIn0.getOut());
+	discreterEncoder0.getIn().connect(motorPositionIn0.getOut());
+// 	posToVel0.getIn().connect(motorPositionIn0.getOut());
+	posToVel0.getIn().connect(discreterEncoder0.getOut());
 // 	posToVel0.getIn().connect(motorPositionIn0Fake.getOut());
 	myFilter0.getIn().connect(posToVel0.getOut());
 // 	diffVel0.getIn(1).connect(posToVel0.getOut());
@@ -67,18 +73,23 @@ timedomain("Main time domain", dt, true)
 // 	motorEffortOut0.getIn().connect(motorPositionIn0Fake.getOut());
 	
 	  // debugging std::cout
-	printDouble0.getIn().connect(motorPositionIn0.getOut());
-	printDouble1.getIn().connect(analogIn0.getOut());
-	printDouble2.getIn().connect(kmGain0.getOut());
+// 	printDouble0.getIn().connect(motorPositionIn0.getOut());
+// 	printDouble0.getIn().connect(discreterEncoder0.getOut());
+// 	printDouble1.getIn().connect(analogIn0.getOut());
+// 	printDouble2.getIn().connect(kmGain0.getOut());
+	printDouble0.getIn().connect(posToVel0.getOut());
+	printDouble1.getIn().connect(myFilter0.getOut());
+	printDouble2.getIn().connect(diffVel0.getOut());
 	
 	  // debugging ros topic
-	motorPositionIn0Publisher.getIn().connect(motorPositionIn0.getOut());
+// 	motorPositionIn0Publisher.getIn().connect(motorPositionIn0.getOut());
+	motorPositionIn0Publisher.getIn().connect(discreterEncoder0.getOut());
 // // 	motorPositionIn0Publisher.getIn().connect(motorPositionIn0Fake.getOut());
 	analogIn0Publisher.getIn().connect(analogIn0.getOut());
 	iwGain0Publisher.getIn().connect(iwGain0.getOut());
 	posToVel0Publisher.getIn().connect(posToVel0.getOut());
 	iwIntegrator0Publisher.getIn().connect(myFilter0.getOut());
-	iwSum0Publisher.getIn().connect(iwSum0.getOut());
+	iwSum0Publisher.getIn().connect(diffVel0.getOut());
 	kmGain0Publisher.getIn().connect(kmGain0.getOut());
 	
 
@@ -86,6 +97,7 @@ timedomain("Main time domain", dt, true)
 	  // inputs
 // 	timedomain.addBlock(&motorPositionIn0Fake);
 	timedomain.addBlock(&motorPositionIn0);
+	timedomain.addBlock(&discreterEncoder0);
 	timedomain.addBlock(&analogIn0);
 	
 	timedomain.addBlock(&posToVel0);

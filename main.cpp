@@ -83,16 +83,16 @@ int main(int argc, char **argv) {
 	// ////////////////////////////////////////////////////////////////////////
 	char* dummy_args[] = {NULL};
 	int dummy_argc = sizeof(dummy_args)/sizeof(dummy_args[0]) - 1;
-// 	ros::init(dummy_argc, dummy_args, "EEROSNode");
 	ros::init(dummy_argc, dummy_args, "motor_sim");
 	ros::NodeHandle rosNodeHandler;
 	log.trace() << "ROS node initialized.";
+	
 	
 // 	ros::NodeHandle syncNodeHandler;
 // 	ros::CallbackQueue syncCallbackQueue;
 // 	syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
 // 	auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
-	
+// 	
 		
 	// Control System
 	// ////////////////////////////////////////////////////////////////////////

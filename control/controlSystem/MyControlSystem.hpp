@@ -17,6 +17,7 @@
 #include "Print.hpp"
 #include "MyStep.hpp"
 #include "MyFilter.hpp"
+#include "Discret.hpp"
 // #include "FilterLowPass.hpp"
 #include "RosBlockSubscriber_SensorMsgs_LaserScan.hpp"
 #include "RosBlockPublisher_SensorMsgs_LaserScan.hpp"
@@ -42,6 +43,8 @@ public:
 	PeripheralInput<double>		motorPositionIn0;
 	PeripheralOutput<double>	motorEffortOut0;
 // // 	PeripheralOutput<bool>		digitalOut0;
+	
+	Discret		discreterEncoder0;
 	
 	// Define blocks
 	Print<double> printDouble0;

@@ -5,8 +5,7 @@ using namespace eeros::control;
 
 
 
-// MyFilter::MyFilter() : index(0) { }
-MyFilter::MyFilter(double k) : k(k) { }
+MyFilter::MyFilter(double k) : k(k), prev(0) { }
 
 MyFilter::~MyFilter() { 
 	// nothing to do...
@@ -14,19 +13,6 @@ MyFilter::~MyFilter() {
 
 
 void MyFilter::run() {
-// 	prev[index] = in.getSignal().getValue();
-// 	
-// 	double sum = 0;
-// 	
-// 	for(int count=0; count < myFilterLength; count++) {
-// 	  sum += prev[count];
-// 	}
-// 	
-// 	index = (index+1)%myFilterLength;
-// 	
-// 	out.getSignal().setValue(sum/myFilterLength);
-// 	out.getSignal().setTimestamp(in.getSignal().getTimestamp());
-	
 	
 
 	double filtered; 

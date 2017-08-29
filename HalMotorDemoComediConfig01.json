@@ -31,15 +31,15 @@
 								"minIn": 	-5.0, 	"maxIn": 	5.0,
 								"minOut":	-10.0, 	"maxOut": 	10.0 },
 					   { "id" : "direct",
-								"scale":	0.5,
-								"offset": 	1 }
+								"scale":	0.00815,
+								"offset": 	-0.04075 }
 					 ],
 				"range": [ { "id" : "dac",
 							"minIn": 	0, 	"maxIn": 	65535,
 							"minOut": 	-10.0, 	"maxOut": 	10.0 },
 					   { "id" : "test",
-							"minIn": 	-5.0, 	"maxIn": 	5.0,
-							"minOut": 	-10.0, 	"maxOut": 	10.0 },
+							"minIn": 	-0.0, 	"maxIn": 	5.0,
+							"minOut": 	-0.0, 	"maxOut": 	10.0 },
 					   { "id" : "direct",
 							"minIn":	-10.0,  "maxIn": 	10.0,
 							"minOut":	-10.0,	"maxOut": 	10.0 }
