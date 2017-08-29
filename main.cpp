@@ -40,7 +40,7 @@ void signalHandler(int signum) {
 
 // void callback(const std_msgs::Float64::Type){
 void callback(const sensor_msgs::JointState::Type){
-	std::cout << "callback" << std::endl;
+// 	std::cout << "callback" << std::endl;
 };
 
 template <typename msgType>
@@ -121,8 +121,8 @@ int main(int argc, char **argv) {
 //	eeros::task::Periodic perLog("periodic log", 0.001, l1);
 //	perLog.monitors.push_back([&](PeriodicCounter &pc, Logger &log){
 //		log.info() << "motor Position in: " << controlSystem.motorPositionIn0.getOut().getSignal();
-//		log.info() << "posToVelIn:        ; " << controlSystem.posToVel0.getIn().getSignal();
-//		log.info() << "posToVel0        : " << controlSystem.posToVel0.getOut().getSignal();
+//		log.info() << "posToVelIn:        ; " << controlSystem.posToVel.getIn().getSignal();
+//		log.info() << "posToVel        : " << controlSystem.posToVel.getOut().getSignal();
 //		log.info() << "ROSTopic 2 Buttons: " << controlSystem.rosBlockB.getButtonsOut().getSignal();
 //	});
 //	executor.add(perLog);

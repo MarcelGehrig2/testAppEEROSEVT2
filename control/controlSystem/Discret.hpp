@@ -26,8 +26,5 @@ public:
 	
 protected:
 	double step;
-// 	double prev;
-// 	double prev[myFilterLength];
-// 	int index;
 };
 #endif /* DISCRET_HPP_ */

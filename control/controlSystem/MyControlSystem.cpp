@@ -11,122 +11,115 @@ using namespace std;
 MyControlSystem::MyControlSystem(double dt, ros::NodeHandle& rosNodeHandler) :
 dt(dt),
 rosNodeHandler(rosNodeHandler),
-myFilter0(0.15),
-// myFilter0(1),
+lowPassFilter(0.15),
+// lowPassFilter(1),
+iSaturation(-2.5,2.5),
 
 printDouble0(1),
 printDouble1(1),
 printDouble2(1),
 laserScanIn (rosNodeHandler, "/rosNodeTalker/TestTopic3", 100, false),
 laserScanOut(rosNodeHandler, "/CSNodeTalker/TestTopic23", 100),
-analogIn0("simpleRosIn0"),
+analogIn("simpleRosIn0"),
 
-discreterEncoder0(0.003141593),
+discreterEncoder(0.003141593),
 
 // controller
-motorPositionIn0("motorPositionIn0"),
-motorEffortOut0("motorEffortOut0"),
+motorPositionIn("motorPositionIn0"),
+effortOut("motorEffortOut0"),
 
 
 //Publisher for debuging
-motorPositionIn0Publisher(rosNodeHandler, "/debug/motorPositionIn0P", 100),
-analogIn0Publisher(rosNodeHandler, "/debug/analogIn0", 100),
-iwGain0Publisher(rosNodeHandler, "/debug/iwGain0", 100),
-posToVel0Publisher(rosNodeHandler, "/debug/posToVel0", 100),
-iwIntegrator0Publisher(rosNodeHandler, "/debug/iwIntegrator0", 100),
-iwSum0Publisher(rosNodeHandler, "/debug/iwSum0", 100),
-kmGain0Publisher(rosNodeHandler, "/debug/kmGain0", 100),
+motorPositionInPublisher(rosNodeHandler, "/debug/motorPositionIn0P", 100),
+analogInPublisher(rosNodeHandler, "/debug/analogIn0", 100),
+iwGainPublisher(rosNodeHandler, "/debug/iwGain0", 100),
+posToVelPublisher(rosNodeHandler, "/debug/posToVel0", 100),
+iwIntegratorPublisher(rosNodeHandler, "/debug/iwIntegrator0", 100),
+iSumPublisher(rosNodeHandler, "/debug/iwSum0", 100),
+kmGainPublisher(rosNodeHandler, "/debug/kmGain0", 100),
 
 timedomain("Main time domain", dt, true)
 
 {
-	motorPositionIn0Fake.setValue(0.0163);
-	diffVel0.negateInput(1);
-	pwGain0.setGain(16.5);
-// 	pwGain0.setGain(1.65);
-	iwGain0.setGain(32.5);
-	iwIntegrator0.setInitCondition(0);
-	iwIntegrator0.enable();
-	kmGain0.setGain(0.0163);
-// 	kmGain0.setGain(1);
+	motorPositionInFake.setValue(0.0163);
+	diffVel.negateInput(1);
+	pwGain.setGain(1.65);
+// 	pwGain.setGain(16.5);
+	iwGain.setGain(3.25);
+// 	iwGain.setGain(32.5);
+	iwIntegrator.setInitCondition(0);
+	iwIntegrator.enable();
+	kmGain.setGain(0.0163);
+// 	kmGain.setGain(1);
 	
 	// Connect Blocks
-	discreterEncoder0.getIn().connect(motorPositionIn0.getOut());
-// 	posToVel0.getIn().connect(motorPositionIn0.getOut());
-	posToVel0.getIn().connect(discreterEncoder0.getOut());
-// 	posToVel0.getIn().connect(motorPositionIn0Fake.getOut());
-	myFilter0.getIn().connect(posToVel0.getOut());
-// 	diffVel0.getIn(1).connect(posToVel0.getOut());
-	diffVel0.getIn(1).connect(myFilter0.getOut());
-	diffVel0.getIn(0).connect(analogIn0.getOut());
+	discreterEncoder.getIn().connect(motorPositionIn.getOut());
+	posToVel.getIn().connect(discreterEncoder.getOut());
+	lowPassFilter.getIn().connect(posToVel.getOut());
+	diffVel.getIn(1).connect(lowPassFilter.getOut());
+	diffVel.getIn(0).connect(analogIn.getOut());
 	
 	  // controller
-	pwGain0.getIn().connect(diffVel0.getOut());
-	iwIntegrator0.getIn().connect(diffVel0.getOut());
-	iwGain0.getIn().connect(iwIntegrator0.getOut());
-	iwSum0.getIn(0).connect(pwGain0.getOut());
-	iwSum0.getIn(1).connect(iwGain0.getOut());
-	kmGain0.getIn().connect(iwSum0.getOut());
+	pwGain.getIn().connect(diffVel.getOut());
+	iwIntegrator.getIn().connect(diffVel.getOut());
+	iwGain.getIn().connect(iwIntegrator.getOut());
+	iSum.getIn(0).connect(pwGain.getOut());
+	iSum.getIn(1).connect(iwGain.getOut());
+	iSaturation.getIn().connect(iSum.getOut());
+	kmGain.getIn().connect(iSaturation.getOut());
 	
 	  // output
-	motorEffortOut0.getIn().connect(kmGain0.getOut());
-// 	motorEffortOut0.getIn().connect(motorPositionIn0Fake.getOut());
+	effortOut.getIn().connect(kmGain.getOut());
+// 	effortOut.getIn().connect(kmGain.getOut());
+// 	effortOut.getIn().connect(motorPositionInFake.getOut());
 	
 	  // debugging std::cout
-// 	printDouble0.getIn().connect(motorPositionIn0.getOut());
-// 	printDouble0.getIn().connect(discreterEncoder0.getOut());
-// 	printDouble1.getIn().connect(analogIn0.getOut());
-// 	printDouble2.getIn().connect(kmGain0.getOut());
-	printDouble0.getIn().connect(posToVel0.getOut());
-	printDouble1.getIn().connect(myFilter0.getOut());
-	printDouble2.getIn().connect(diffVel0.getOut());
 	
 	  // debugging ros topic
-// 	motorPositionIn0Publisher.getIn().connect(motorPositionIn0.getOut());
-	motorPositionIn0Publisher.getIn().connect(discreterEncoder0.getOut());
-// // 	motorPositionIn0Publisher.getIn().connect(motorPositionIn0Fake.getOut());
-	analogIn0Publisher.getIn().connect(analogIn0.getOut());
-	iwGain0Publisher.getIn().connect(iwGain0.getOut());
-	posToVel0Publisher.getIn().connect(posToVel0.getOut());
-	iwIntegrator0Publisher.getIn().connect(myFilter0.getOut());
-	iwSum0Publisher.getIn().connect(diffVel0.getOut());
-	kmGain0Publisher.getIn().connect(kmGain0.getOut());
+	motorPositionInPublisher.getIn().connect(discreterEncoder.getOut());
+	analogInPublisher.getIn().connect(analogIn.getOut());
+	iwGainPublisher.getIn().connect(iwGain.getOut());
+	posToVelPublisher.getIn().connect(posToVel.getOut());
+	iwIntegratorPublisher.getIn().connect(lowPassFilter.getOut());
+	iSumPublisher.getIn().connect(diffVel.getOut());
+	kmGainPublisher.getIn().connect(iSaturation.getOut());
 	
 
 	// Run blocks
 	  // inputs
-// 	timedomain.addBlock(&motorPositionIn0Fake);
-	timedomain.addBlock(&motorPositionIn0);
-	timedomain.addBlock(&discreterEncoder0);
-	timedomain.addBlock(&analogIn0);
+// 	timedomain.addBlock(motorPositionInFake);
+	timedomain.addBlock(motorPositionIn);
+	timedomain.addBlock(discreterEncoder);
+	timedomain.addBlock(analogIn);
 	
-	timedomain.addBlock(&posToVel0);
-	timedomain.addBlock(&myFilter0);
+	timedomain.addBlock(posToVel);
+	timedomain.addBlock(lowPassFilter);
 	
 	  // controller
-	timedomain.addBlock(&diffVel0);
-	timedomain.addBlock(&iwIntegrator0);
-	timedomain.addBlock(&iwGain0);
-	timedomain.addBlock(&pwGain0);
-	timedomain.addBlock(&iwSum0);
-	timedomain.addBlock(&kmGain0);
+	timedomain.addBlock(diffVel);
+	timedomain.addBlock(iwIntegrator);
+	timedomain.addBlock(iwGain);
+	timedomain.addBlock(pwGain);
+	timedomain.addBlock(iSum);
+	timedomain.addBlock(iSaturation);
+	timedomain.addBlock(kmGain);
 	
 	  // debugging std::cout
-	timedomain.addBlock(&printDouble0);
-	timedomain.addBlock(&printDouble1);
-	timedomain.addBlock(&printDouble2);
+// 	timedomain.addBlock(printDouble0);
+// 	timedomain.addBlock(printDouble1);
+// 	timedomain.addBlock(printDouble2);
 	
-	  // debugging ros topic
-	timedomain.addBlock(&motorPositionIn0Publisher);
-	timedomain.addBlock(&analogIn0Publisher);
-	timedomain.addBlock(&posToVel0Publisher);
-	timedomain.addBlock(&iwGain0Publisher);
-	timedomain.addBlock(&iwIntegrator0Publisher);
-	timedomain.addBlock(&iwSum0Publisher);
-	timedomain.addBlock(&kmGain0Publisher);
+	  // debugging ros tpic
+	timedomain.addBlock(motorPositionInPublisher);
+	timedomain.addBlock(analogInPublisher);
+	timedomain.addBlock(posToVelPublisher);
+	timedomain.addBlock(iwGainPublisher);
+	timedomain.addBlock(iwIntegratorPublisher);
+	timedomain.addBlock(iSumPublisher);
+	timedomain.addBlock(kmGainPublisher);
 	
 	  // output
-	timedomain.addBlock(&motorEffortOut0);
+	timedomain.addBlock(effortOut);
 				
 	eeros::task::Periodic td("control system",dt, timedomain);
 	eeros::Executor::instance().add(td);

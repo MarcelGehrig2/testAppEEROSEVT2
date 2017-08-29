@@ -12,13 +12,12 @@
 #include <eeros/control/Gain.hpp>
 #include <eeros/control/I.hpp>
 #include <eeros/control/D.hpp>
-// #include <eeros/control/Filter.hpp>
+#include <eeros/control/Saturation.hpp>
 
 #include "Print.hpp"
 #include "MyStep.hpp"
 #include "MyFilter.hpp"
 #include "Discret.hpp"
-// #include "FilterLowPass.hpp"
 #include "RosBlockSubscriber_SensorMsgs_LaserScan.hpp"
 #include "RosBlockPublisher_SensorMsgs_LaserScan.hpp"
 
@@ -26,7 +25,6 @@ using namespace eeros::control;
 
 class MyControlSystem {		
 public:
-// 	MyControlSystem(double dt);
 	MyControlSystem(double dt, ros::NodeHandle& rosNodeHandler);
 
 	
@@ -39,12 +37,11 @@ public:
 	RosBlockPublisher_SensorMsgs_LaserScan<TRangesInput, TIntensitiesInput>		laserScanOut;
 	
 	// HAL 
-	PeripheralInput<double>		analogIn0;
-	PeripheralInput<double>		motorPositionIn0;
-	PeripheralOutput<double>	motorEffortOut0;
-// // 	PeripheralOutput<bool>		digitalOut0;
+	PeripheralInput<double>		analogIn;
+	PeripheralInput<double>		motorPositionIn;
+	PeripheralOutput<double>	effortOut;
 	
-	Discret		discreterEncoder0;
+	Discret		discreterEncoder;
 	
 	// Define blocks
 	Print<double> printDouble0;
@@ -52,25 +49,25 @@ public:
 	Print<double> printDouble2;
 	
 	// Controler blocks
-	Constant<double>		motorPositionIn0Fake;
-	D<double> 			posToVel0;
-	MyFilter			myFilter0;
-// 	Filter				myFilter0;
-	Sum<2, double>			diffVel0;
-	Gain<double>			pwGain0;
-	Gain<double>			iwGain0;
-	I<double>			iwIntegrator0;
-	Sum<2, double>			iwSum0;
-	Gain<double>			kmGain0;
+	Constant<double>		motorPositionInFake;
+	D<double> 			posToVel;
+	MyFilter			lowPassFilter;
+	Sum<2, double>			diffVel;
+	Gain<double>			pwGain;
+	Gain<double>			iwGain;
+	I<double>			iwIntegrator;
+	Sum<2, double>			iSum;
+	Saturation<double>		iSaturation;
+	Gain<double>			kmGain;
 	
 	//Publisher for debuging
-	RosBlockPublisherDouble		motorPositionIn0Publisher;
-	RosBlockPublisherDouble		analogIn0Publisher;
-	RosBlockPublisherDouble		iwGain0Publisher;
-	RosBlockPublisherDouble		posToVel0Publisher;
-	RosBlockPublisherDouble		iwIntegrator0Publisher;
-	RosBlockPublisherDouble		iwSum0Publisher;
-	RosBlockPublisherDouble		kmGain0Publisher;
+	RosBlockPublisherDouble		motorPositionInPublisher;
+	RosBlockPublisherDouble		analogInPublisher;
+	RosBlockPublisherDouble		iwGainPublisher;
+	RosBlockPublisherDouble		posToVelPublisher;
+	RosBlockPublisherDouble		iwIntegratorPublisher;
+	RosBlockPublisherDouble		iSumPublisher;
+	RosBlockPublisherDouble		kmGainPublisher;
 	
 //	protected:
 	double dt;
