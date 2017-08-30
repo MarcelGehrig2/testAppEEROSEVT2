@@ -73,10 +73,10 @@ int main(int argc, char **argv) {
 	log.trace() << "ROS node initialized.";
 	
 	
-// 	ros::NodeHandle syncNodeHandler;
-// 	ros::CallbackQueue syncCallbackQueue;
-// 	syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
-// 	auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
+	ros::NodeHandle syncNodeHandler;
+	ros::CallbackQueue syncCallbackQueue;
+	syncNodeHandler.setCallbackQueue(&syncCallbackQueue);
+	auto subscriberSync = syncNodeHandler.subscribe("motor_sim/joint_states", 1, &callback);
 // 	
 		
 	// Control System
@@ -96,9 +96,9 @@ int main(int argc, char **argv) {
 	executor.setMainTask(safetySystem);
 	
 	
-// 	executor.syncWithRosTopic(&syncCallbackQueue);
-// 	eeros::System::useRosTime();
-	
+	executor.syncWithRosTopic(&syncCallbackQueue);
+	eeros::System::useRosTime();
+// 	
 	
 	// Lambda function for logging signals in CS
 	// /////////////////////////////////////////
